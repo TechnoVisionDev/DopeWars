@@ -1,6 +1,6 @@
 package civbot.commands.general;
 
-import civbot.commands.SlashCommand;
+import civbot.commands.Command;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 /**
@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
  *
  * @author TechnoVision
  */
-public class StartCommand extends SlashCommand {
+public class StartCommand extends Command {
 
     public StartCommand() {
         this.name = "start";

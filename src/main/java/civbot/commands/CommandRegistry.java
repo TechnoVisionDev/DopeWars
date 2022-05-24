@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class CommandRegistry extends ListenerAdapter {
 
-    public static final ArrayList<SlashCommand> commands = new ArrayList<>();
+    public static final ArrayList<Command> commands = new ArrayList<>();
 
     /**
      * Adds commands to a global list and registers them as event listener.
@@ -23,7 +23,7 @@ public class CommandRegistry extends ListenerAdapter {
      */
     public CommandRegistry(ShardManager shardManager) {
         commands.add(new StartCommand());
-        for (SlashCommand command : commands) {
+        for (Command command : commands) {
             shardManager.addEventListener(command);
         }
     }
@@ -35,7 +35,7 @@ public class CommandRegistry extends ListenerAdapter {
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        for (SlashCommand command : commands) {
+        for (Command command : commands) {
             event.getGuild().upsertCommand(command.name, command.description).queue();
         }
     }

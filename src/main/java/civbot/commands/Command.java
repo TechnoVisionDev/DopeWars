@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author TechnoVision
  */
-public abstract class SlashCommand extends ListenerAdapter {
+public abstract class Command extends ListenerAdapter {
 
     protected String name;
     protected String description;
