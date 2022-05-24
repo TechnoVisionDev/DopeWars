@@ -1,13 +1,12 @@
 package civbot;
 
+import civbot.commands.CommandRegistry;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
@@ -18,7 +17,7 @@ import javax.security.auth.login.LoginException;
  * @author TechnVision
  * @version 1.0
  */
-public class CivBot {
+public class CivBot extends ListenerAdapter {
 
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
@@ -32,11 +31,9 @@ public class CivBot {
         config = Dotenv.load();
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("!help"));
-        builder.setChunkingFilter(ChunkingFilter.ALL);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+        builder.setActivity(Activity.playing("/help"));
         shardManager = builder.build();
+        shardManager.addEventListener(new CommandRegistry(shardManager));
     }
 
     /**
