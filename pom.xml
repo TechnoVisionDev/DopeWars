@@ -26,6 +26,11 @@
             <artifactId>mongodb-driver-sync</artifactId>
             <version>4.6.0</version>
         </dependency>
-        
+        <!-- https://github.com/cdimascio/dotenv-java -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>2.2.3</version>
+        </dependency>
     </dependencies>
 </project>

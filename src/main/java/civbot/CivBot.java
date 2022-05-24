@@ -1,5 +1,6 @@
 package civbot;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -19,6 +20,7 @@ import javax.security.auth.login.LoginException;
  */
 public class CivBot {
 
+    public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
 
     /**
@@ -27,8 +29,8 @@ public class CivBot {
      * @throws LoginException throws if bot token is invalid.
      */
     public CivBot() throws LoginException {
-        String token = "OTc4NDYzNTg1MzE3NTY0NDU2.G0Arzc.TU2YZk932BnAms_G9OOe2g5bsyCTHw1CBj4ob0";
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(token);
+        config = Dotenv.load();
+        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("!help"));
         builder.setChunkingFilter(ChunkingFilter.ALL);
