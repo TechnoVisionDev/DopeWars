@@ -4,6 +4,7 @@ import civbot.CivBot;
 import civbot.commands.general.JoinCommand;
 import civbot.commands.general.ProfessionCommand;
 import civbot.commands.general.StartCommand;
+import civbot.commands.woodcutting.ChopCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -25,9 +26,15 @@ public class CommandRegistry extends ListenerAdapter {
      * @param bot An instance of CivBot.
      */
     public CommandRegistry(CivBot bot) {
+        //General commands
         commands.add(new StartCommand(bot));
         commands.add(new ProfessionCommand(bot));
         commands.add(new JoinCommand(bot));
+
+        //Woodcutting commands
+        commands.add(new ChopCommand(bot));
+
+        //Register commands as listeners
         for (Command command : commands) {
             bot.shardManager.addEventListener(command);
         }
