@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 /**
  * Command that allows users to join a profession.
+ * Draws upon data in Professions.java enum class.
  *
  * @author TechnoVision
  */
