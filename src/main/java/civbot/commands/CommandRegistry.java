@@ -1,9 +1,14 @@
 package civbot.commands;
 
 import civbot.CivBot;
+import civbot.commands.general.JoinCommand;
+import civbot.commands.general.ProfessionCommand;
 import civbot.commands.general.StartCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +30,8 @@ public class CommandRegistry extends ListenerAdapter {
      */
     public CommandRegistry(CivBot bot) {
         commands.add(new StartCommand(bot));
+        commands.add(new ProfessionCommand(bot));
+        commands.add(new JoinCommand(bot));
         for (Command command : commands) {
             bot.shardManager.addEventListener(command);
         }
@@ -39,7 +46,11 @@ public class CommandRegistry extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         for (Command command : commands) {
-            event.getGuild().upsertCommand(command.name, command.description).queue();
+            if (command.args.isEmpty()) {
+                event.getGuild().upsertCommand(command.name, command.description).queue();
+            } else {
+                event.getGuild().upsertCommand(command.name, command.description).addOptions(command.args).queue();
+            }
         }
     }
 }
