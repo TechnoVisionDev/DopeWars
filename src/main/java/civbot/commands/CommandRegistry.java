@@ -1,5 +1,6 @@
 package civbot.commands;
 
+import civbot.CivBot;
 import civbot.commands.general.StartCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,19 +20,21 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Adds commands to a global list and registers them as event listener.
-     * @param shardManager the shardManager created in CivBot.java
+     *
+     * @param bot An instance of CivBot.
      */
-    public CommandRegistry(ShardManager shardManager) {
-        commands.add(new StartCommand());
+    public CommandRegistry(CivBot bot) {
+        commands.add(new StartCommand(bot));
         for (Command command : commands) {
-            shardManager.addEventListener(command);
+            bot.shardManager.addEventListener(command);
         }
     }
 
     /**
      * Registers slash commands as guild commands.
      * TEMPORARY! CHANGE TO GLOBAL COMMANDS ON RELEASE!
-     * @param event
+     *
+     * @param event executes when a guild is ready.
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
