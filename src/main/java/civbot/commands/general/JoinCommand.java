@@ -2,6 +2,7 @@ package civbot.commands.general;
 
 import civbot.CivBot;
 import civbot.commands.Command;
+import civbot.util.Professions;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -18,11 +19,11 @@ public class JoinCommand extends Command {
         super(bot);
         this.name = "join";
         this.description = "Join a profession";
-        this.args.add(
-                new OptionData(OptionType.STRING, "profession", "the profession you want to join", true)
-                        .addChoice("woodcutting", "woodcutting")
-                        .addChoice("herbalism", "herbalism")
-        );
+        OptionData data = new OptionData(OptionType.STRING, "profession", "the profession you want to join", true);
+        for (Professions job : Professions.values()) {
+            data.addChoice(job.name, job.name);
+        }
+        this.args.add(data);
     }
 
     public void execute(SlashCommandInteractionEvent event) {

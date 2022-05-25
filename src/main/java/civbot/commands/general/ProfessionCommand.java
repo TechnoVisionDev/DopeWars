@@ -3,7 +3,6 @@ package civbot.commands.general;
 import civbot.CivBot;
 import civbot.commands.Command;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 /**
  * Command that showcases information on all professions.
