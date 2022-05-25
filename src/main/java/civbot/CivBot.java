@@ -1,6 +1,7 @@
 package civbot;
 
 import civbot.commands.CommandRegistry;
+import civbot.data.Cache;
 import civbot.data.DatabaseManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -23,6 +24,7 @@ public class CivBot extends ListenerAdapter {
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
     public final @NotNull DatabaseManager databaseManager;
+    public final @NotNull Cache cache;
 
     /**
      * Builds bot shards and registers commands and modules.
@@ -40,6 +42,7 @@ public class CivBot extends ListenerAdapter {
 
         //Create Managers & Modules
         databaseManager = new DatabaseManager(config.get("DATABASE"));
+        cache = new Cache(databaseManager);
     }
 
     /**
