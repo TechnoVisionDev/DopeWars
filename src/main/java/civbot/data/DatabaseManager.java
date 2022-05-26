@@ -1,5 +1,6 @@
 package civbot.data;
 
+import civbot.data.pojos.Player;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -20,7 +21,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
  */
 public class DatabaseManager {
 
-    public @NotNull MongoCollection<User> users;
+    public @NotNull MongoCollection<Player> players;
 
     /**
      * Connect to database using MongoDB URI and
@@ -40,6 +41,6 @@ public class DatabaseManager {
         MongoDatabase database = mongoClient.getDatabase("CivBot");
 
         // Initialize collections if they don't exist.
-        users = database.getCollection("users", User.class);
+        players = database.getCollection("users", Player.class);
     }
 }

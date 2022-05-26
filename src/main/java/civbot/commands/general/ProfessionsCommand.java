@@ -7,16 +7,14 @@ import civbot.util.Professions;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import java.awt.*;
-
 /**
  * Command that showcases information on all professions.
  *
  * @author TechnoVision
  */
-public class ProfessionCommand extends Command {
+public class ProfessionsCommand extends Command {
 
-    public ProfessionCommand(CivBot bot) {
+    public ProfessionsCommand(CivBot bot) {
         super(bot);
         this.name = "professions";
         this.description = "View information about all professions";

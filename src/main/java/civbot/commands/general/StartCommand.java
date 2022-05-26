@@ -2,9 +2,8 @@ package civbot.commands.general;
 
 import civbot.CivBot;
 import civbot.commands.Command;
-import civbot.data.User;
+import civbot.data.pojos.Player;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import org.bson.Document;
 
 /**
  * Command that creates user profile in database and displays tutorial.
@@ -21,13 +20,13 @@ public class StartCommand extends Command {
 
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        if (bot.cache.getUser(event.getUser().getIdLong()) != null) {
+        if (bot.cache.getPlayer(event.getUser().getIdLong()) != null) {
             event.getHook().sendMessage("You have already started your journey...").queue();
             // TODO: Show tutorial guide
         } else {
-            User user = new User(event.getUser().getIdLong());
-            bot.cache.addUser(user);
-            bot.databaseManager.users.insertOne(user);
+            Player player = new Player(event.getUser().getIdLong());
+            bot.cache.addPlayer(player);
+            bot.databaseManager.players.insertOne(player);
             event.getHook().sendMessage("You embark on your journey!").queue();
             // TODO: Show tutorial guide
         }

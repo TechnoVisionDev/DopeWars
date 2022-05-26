@@ -2,7 +2,7 @@ package civbot.commands;
 
 import civbot.CivBot;
 import civbot.commands.general.JoinCommand;
-import civbot.commands.general.ProfessionCommand;
+import civbot.commands.general.ProfessionsCommand;
 import civbot.commands.general.StartCommand;
 import civbot.commands.woodcutting.ChopCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -28,7 +28,7 @@ public class CommandRegistry extends ListenerAdapter {
     public CommandRegistry(CivBot bot) {
         //General commands
         commands.add(new StartCommand(bot));
-        commands.add(new ProfessionCommand(bot));
+        commands.add(new ProfessionsCommand(bot));
         commands.add(new JoinCommand(bot));
 
         //Woodcutting commands
