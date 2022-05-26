@@ -5,7 +5,6 @@ import civbot.commands.Command;
 import civbot.util.Materials;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import org.bson.Document;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -38,12 +37,17 @@ public class ChopCommand extends Command {
 
         // Update cache and database
         User user = event.getUser();
-        bot.cache.addItem(user.getIdLong(), "wooden_log", amount);
+        boolean result = bot.cache.addItem(user.getIdLong(), "wooden_log", amount);
 
-        // Reply to user with message
-        String username = user.getName();
-        String name = Materials.WOODEN_LOG.name;
-        String emoji = Materials.WOODEN_LOG.emoji;
-        event.getHook().sendMessage("**"+username+"** got "+amount+" "+emoji+" "+name).queue();
+        if (result) {
+            // Reply to user with message
+            String username = user.getName();
+            String name = Materials.WOODEN_LOG.name;
+            String emoji = Materials.WOODEN_LOG.emoji;
+            event.getHook().sendMessage("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
+        } else {
+            String cooldown = bot.cache.getGatherCooldown(user.getIdLong());
+            event.getHook().sendMessage("You already gathered some resources, wait at least **"+cooldown+"**...").queue();
+        }
     }
 }
