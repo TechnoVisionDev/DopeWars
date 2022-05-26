@@ -7,7 +7,7 @@ package civbot.util;
  */
 public enum Materials {
 
-    WOODEN_LOG("wooden log", ":wood:", 0);
+    OAK_LOG("oak log", ":wood:", 0);
 
     public final String name;
     public final String emoji;
