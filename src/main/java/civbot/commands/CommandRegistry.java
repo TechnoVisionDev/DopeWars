@@ -8,9 +8,12 @@ import civbot.commands.general.StartCommand;
 import civbot.commands.woodcutting.ChopCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Registers, listens, and executes commands.
@@ -50,13 +53,10 @@ public class CommandRegistry extends ListenerAdapter {
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        event.getGuild().updateCommands().queue();
+        List<CommandData> commandData = new ArrayList<>();
         for (Command command : commands) {
-            if (command.args.isEmpty()) {
-                event.getGuild().upsertCommand(command.name, command.description).queue();
-            } else {
-                event.getGuild().upsertCommand(command.name, command.description).addOptions(command.args).queue();
-            }
+            commandData.add(Commands.slash(command.name, command.description).addOptions(command.args));
         }
+        event.getGuild().updateCommands().addCommands(commandData).queue();
     }
 }
