@@ -65,7 +65,6 @@ public class Cache {
         // Check if cooldown timer is active
         if (timeouts.containsKey(user_id)) {
             if ((timeouts.get(user_id) - System.currentTimeMillis() + FIVE_MINUTES) > 0) {
-                System.out.println(timeouts.get(user_id) - System.currentTimeMillis() + FIVE_MINUTES);
                 return false;
             }
         }
@@ -76,7 +75,7 @@ public class Cache {
 
         // Add to database
         Document query = new Document("user_id", user_id);
-        Document update = new Document("$inc", new Document("inventory.wooden_log", amount));
+        Document update = new Document("$inc", new Document("inventory."+key, amount));
         databaseManager.players.updateOne(query, update);
         return true;
     }

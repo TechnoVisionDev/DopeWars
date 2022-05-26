@@ -1,6 +1,7 @@
 package civbot.commands;
 
 import civbot.CivBot;
+import civbot.commands.general.InventoryCommand;
 import civbot.commands.general.JoinCommand;
 import civbot.commands.general.ProfessionsCommand;
 import civbot.commands.general.StartCommand;
@@ -30,6 +31,7 @@ public class CommandRegistry extends ListenerAdapter {
         commands.add(new StartCommand(bot));
         commands.add(new ProfessionsCommand(bot));
         commands.add(new JoinCommand(bot));
+        commands.add(new InventoryCommand(bot));
 
         //Woodcutting commands
         commands.add(new ChopCommand(bot));
