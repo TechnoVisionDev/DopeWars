@@ -44,6 +44,7 @@ public class CommandRegistry extends ListenerAdapter {
         commands.add(new RobCommand(bot));
         commands.add(new DepositCommand(bot));
         commands.add(new WithdrawCommand(bot));
+        commands.add(new PayCommand(bot));
 
         //Register commands as listeners
         for (Command command : commands) {
