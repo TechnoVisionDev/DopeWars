@@ -1,6 +1,7 @@
 package dopewars.commands.economy;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import net.dv8tion.jda.api.entities.User;
@@ -25,6 +26,7 @@ public class WithdrawCommand extends Command {
         super(bot);
         this.name = "withdraw";
         this.description = "Withdraw your money from the bank.";
+        this.category = Category.ECONOMY;
         this.args.add(new OptionData(OptionType.INTEGER, "amount", "The amount of money you want to withdraw.").setMinValue(1));
     }
 

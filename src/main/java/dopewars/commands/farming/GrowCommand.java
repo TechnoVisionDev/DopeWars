@@ -1,6 +1,7 @@
 package dopewars.commands.farming;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.handlers.TimeoutHandler;
 import dopewars.items.ItemTypes;
@@ -26,6 +27,7 @@ public class GrowCommand extends Command {
         super(bot);
         this.name = "grow";
         this.description = "Grow plants for resources.";
+        this.category = Category.FARMING;
         OptionData data = new OptionData(OptionType.STRING, "plant", "the plant you want to grow", true);
         for (Plants plant : Plants.values()) {
             data.addChoice(plant.name, plant.toString().toUpperCase());

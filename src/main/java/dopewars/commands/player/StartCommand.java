@@ -1,6 +1,7 @@
-package dopewars.commands.general;
+package dopewars.commands.player;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -16,6 +17,7 @@ public class StartCommand extends Command {
         super(bot);
         this.name = "start";
         this.description = "Start your journey.";
+        this.category = Category.PLAYER;
     }
 
     public void execute(SlashCommandInteractionEvent event) {

@@ -1,6 +1,7 @@
 package dopewars.commands.economy;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.handlers.TimeoutHandler;
@@ -23,6 +24,7 @@ public class CrimeCommand extends Command {
         super(bot);
         this.name = "crime";
         this.description = "Commit a crime for a chance at some cash.";
+        this.category = Category.ECONOMY;
     }
 
     public void execute(SlashCommandInteractionEvent event) {

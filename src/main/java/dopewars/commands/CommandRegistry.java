@@ -2,18 +2,23 @@ package dopewars.commands;
 
 import dopewars.DopeWars;
 import dopewars.commands.economy.*;
-import dopewars.commands.general.InventoryCommand;
-import dopewars.commands.general.ProfileCommand;
-import dopewars.commands.general.StartCommand;
+import dopewars.commands.player.InventoryCommand;
+import dopewars.commands.player.ProfileCommand;
+import dopewars.commands.player.StartCommand;
 import dopewars.commands.farming.GrowCommand;
+import dopewars.commands.utility.HelpCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Registers, listens, and executes commands.
@@ -22,7 +27,13 @@ import java.util.List;
  */
 public class CommandRegistry extends ListenerAdapter {
 
-    public static final ArrayList<Command> commands = new ArrayList<>();
+    /** List of commands in the exact order registered */
+    public static final List<Command> commands = new ArrayList<>();
+
+    /** Map of command names to command objects */
+    public static final Map<String, Command> commandsMap = new HashMap<>();
+
+    private final DopeWars bot;
 
     /**
      * Adds commands to a global list and registers them as event listener.
@@ -30,40 +41,86 @@ public class CommandRegistry extends ListenerAdapter {
      * @param bot An instance of DopeWars bot.
      */
     public CommandRegistry(DopeWars bot) {
-        //General commands
-        commands.add(new StartCommand(bot));
-        commands.add(new ProfileCommand(bot));
-        commands.add(new InventoryCommand(bot));
+        this.bot = bot;
+        mapCommand(
+                //Player commands
+                new StartCommand(bot),
+                new ProfileCommand(bot),
+                new InventoryCommand(bot),
 
-        //Farming commands
-        commands.add(new GrowCommand(bot));
+                //Economy commands
+                new BalanceCommand(bot),
+                new CrimeCommand(bot),
+                new RobCommand(bot),
+                new DepositCommand(bot),
+                new WithdrawCommand(bot),
+                new PayCommand(bot),
 
-        //Economy commands
-        commands.add(new BalanceCommand(bot));
-        commands.add(new CrimeCommand(bot));
-        commands.add(new RobCommand(bot));
-        commands.add(new DepositCommand(bot));
-        commands.add(new WithdrawCommand(bot));
-        commands.add(new PayCommand(bot));
+                //Farming commands
+                new GrowCommand(bot),
 
-        //Register commands as listeners
+                // Utility commands
+                new HelpCommand(bot)
+        );
+    }
+
+    /**
+     * Adds a command to the static list and map.
+     *
+     * @param cmds a spread list of command objects.
+     */
+    private void mapCommand(Command ...cmds) {
+        for (Command cmd : cmds) {
+            commandsMap.put(cmd.name, cmd);
+            commands.add(cmd);
+        }
+    }
+
+    /**
+     * Creates a list of CommandData for all commands.
+     *
+     * @return a list of CommandData to be used for registration.
+     */
+    public static List<CommandData> unpackCommandData() {
+        // Register slash commands
+        List<CommandData> commandData = new ArrayList<>();
         for (Command command : commands) {
-            bot.shardManager.addEventListener(command);
+            SlashCommandData slashCommand = Commands.slash(command.name, command.description).addOptions(command.args);
+            if (!command.subCommands.isEmpty()) {
+                slashCommand.addSubcommands(command.subCommands);
+            }
+            commandData.add(slashCommand);
+        }
+        return commandData;
+    }
+
+    /**
+     * Runs whenever a slash command is run in Discord.
+     */
+    @Override
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        // Get command by name
+        Command cmd = commandsMap.get(event.getName());
+        if (cmd != null) {
+            if (event.getName().equalsIgnoreCase("start") || bot.playerHandler.getPlayer(event.getUser().getIdLong()) != null) {
+                // Run command
+                cmd.execute(event);
+            } else {
+                // Player has not started game
+                String msg = "You must begin your journey with **/start** before using that command!";
+                event.reply(msg).queue();
+            }
         }
     }
 
     /**
      * Registers slash commands as guild commands.
-     * TEMPORARY! CHANGE TO GLOBAL COMMANDS ON RELEASE!
+     * NOTE: May change to global commands on release.
      *
      * @param event executes when a guild is ready.
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        List<CommandData> commandData = new ArrayList<>();
-        for (Command command : commands) {
-            commandData.add(Commands.slash(command.name, command.description).addOptions(command.args));
-        }
-        event.getGuild().updateCommands().addCommands(commandData).queue();
+        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {}, fail -> {});
     }
 }

@@ -1,6 +1,7 @@
-package dopewars.commands.general;
+package dopewars.commands.player;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.items.Drugs;
@@ -24,6 +25,7 @@ public class InventoryCommand extends Command {
         super(bot);
         this.name = "inventory";
         this.description = "Display your items.";
+        this.category = Category.PLAYER;
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's inventory"));
     }
 

@@ -1,6 +1,7 @@
-package dopewars.commands.general;
+package dopewars.commands.player;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.util.EmbedColor;
@@ -24,6 +25,7 @@ public class ProfileCommand extends Command {
         super(bot);
         this.name = "profile";
         this.description = "Display your profile stats.";
+        this.category = Category.PLAYER;
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's profile"));
     }
 

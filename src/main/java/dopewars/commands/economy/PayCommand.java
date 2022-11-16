@@ -1,6 +1,7 @@
 package dopewars.commands.economy;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.handlers.TimeoutHandler;
@@ -25,6 +26,7 @@ public class PayCommand extends Command {
         super(bot);
         this.name = "pay";
         this.description = "Send cash to another user.";
+        this.category = Category.ECONOMY;
         this.args.add(new OptionData(OptionType.USER, "user", "The user you want to rob.", true));
         this.args.add(new OptionData(OptionType.INTEGER, "amount", "The amount of money to send.", true).setMinValue(1));
     }

@@ -1,6 +1,7 @@
 package dopewars.commands.economy;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.util.EmbedColor;
@@ -25,6 +26,7 @@ public class BalanceCommand extends Command {
         super(bot);
         this.name = "balance";
         this.description = "Display your current balance.";
+        this.category = Category.ECONOMY;
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's balance"));
     }
 

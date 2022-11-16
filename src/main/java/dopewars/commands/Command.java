@@ -2,9 +2,8 @@ package dopewars.commands;
 
 import dopewars.DopeWars;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.jetbrains.annotations.NotNull;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,29 +13,40 @@ import java.util.List;
  *
  * @author TechnoVision
  */
-public abstract class Command extends ListenerAdapter {
+public abstract class Command {
 
     protected DopeWars bot;
     protected String name;
     protected String description;
+    protected Category category;
     protected List<OptionData> args;
+    public List<SubcommandData> subCommands;
 
     public Command(DopeWars bot) {
         this.bot = bot;
         this.args = new ArrayList<>();
+        this.subCommands = new ArrayList<>();
     }
 
     public abstract void execute(SlashCommandInteractionEvent event);
 
-    @Override
-    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (event.getName().equals(name)) {
-            if (event.getName().equalsIgnoreCase("start") || bot.playerHandler.getPlayer(event.getUser().getIdLong()) != null) {
-                execute(event);
-            } else {
-                String msg = "You must begin your journey with **/start** before using that command!";
-                event.reply(msg).queue();
-            }
-        }
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public List<OptionData> getArgs() {
+        return args;
+    }
+
+    public List<SubcommandData> getSubCommands() {
+        return subCommands;
     }
 }

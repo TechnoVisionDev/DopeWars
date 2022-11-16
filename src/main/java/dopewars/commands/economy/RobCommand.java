@@ -1,6 +1,7 @@
 package dopewars.commands.economy;
 
 import dopewars.DopeWars;
+import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.pojos.Player;
 import dopewars.handlers.TimeoutHandler;
@@ -27,6 +28,7 @@ public class RobCommand extends Command {
         super(bot);
         this.name = "rob";
         this.description = "Attempt to steal money from another user.";
+        this.category = Category.ECONOMY;
         this.args.add(new OptionData(OptionType.USER, "user", "The user you want to rob.", true));
     }
 
