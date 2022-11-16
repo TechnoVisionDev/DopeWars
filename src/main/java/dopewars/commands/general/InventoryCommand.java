@@ -36,7 +36,7 @@ public class InventoryCommand extends Command {
         Player player;
         if (option != null) {
             user = option.getAsUser();
-            player = bot.cache.getPlayer(option.getAsUser().getIdLong());
+            player = bot.playerHandler.getPlayer(option.getAsUser().getIdLong());
             if (player == null) {
                 String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
                 event.getHook().sendMessage(msg).queue();
@@ -44,7 +44,7 @@ public class InventoryCommand extends Command {
             }
         } else {
             user = event.getUser();
-            player = bot.cache.getPlayer(user.getIdLong());
+            player = bot.playerHandler.getPlayer(user.getIdLong());
         }
 
         // Retrieve materials from cache

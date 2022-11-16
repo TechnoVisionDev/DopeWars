@@ -20,12 +20,12 @@ public class StartCommand extends Command {
 
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        if (bot.cache.getPlayer(event.getUser().getIdLong()) != null) {
+        if (bot.playerHandler.getPlayer(event.getUser().getIdLong()) != null) {
             event.getHook().sendMessage("You have already started your journey...").queue();
             // TODO: Show tutorial guide
         } else {
             Player player = new Player(event.getUser().getIdLong());
-            bot.cache.addPlayer(player);
+            bot.playerHandler.addPlayer(player);
             bot.databaseManager.players.insertOne(player);
             event.getHook().sendMessage("You embark on your journey!").queue();
             // TODO: Show tutorial guide

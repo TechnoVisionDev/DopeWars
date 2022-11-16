@@ -1,5 +1,6 @@
-package dopewars.data;
+package dopewars.handlers;
 
+import dopewars.data.DatabaseManager;
 import dopewars.data.pojos.Player;
 import dopewars.items.ItemTypes;
 import org.bson.Document;
@@ -7,12 +8,12 @@ import org.bson.Document;
 import java.util.*;
 
 /**
- * Caches data from MongoDB in local memory for quick access.
+ * Caches player data from MongoDB in local memory for quick access.
  * Some methods also update data in the database.
  *
  * @author TechnoVision
  */
-public class Cache {
+public class PlayerHandler {
 
     private final DatabaseManager databaseManager;
     private final Map<Long, Player> players;
@@ -22,11 +23,11 @@ public class Cache {
      *
      * @param databaseManager an instance of DatabaseManager.java from DopeWars.java
      */
-    public Cache(DatabaseManager databaseManager) {
+    public PlayerHandler(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
         this.players = new HashMap<>();
         for (Player player : databaseManager.players.find()) {
-            players.put(player.getUser_id(), player);
+            addPlayer(player);
         }
     }
 
@@ -57,7 +58,7 @@ public class Cache {
      * @param amount the amount of the item to add.
      */
     public void addItem(long user_id, String key, long amount, ItemTypes type) {
-        // Add to cache
+        // Add to player cache
         switch(type) {
             case MATERIALS -> players.get(user_id).getMaterials().merge(key, amount, Long::sum);
             case EQUIPMENT -> players.get(user_id).getEquipment().merge(key, amount, Long::sum);

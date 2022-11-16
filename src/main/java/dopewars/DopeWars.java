@@ -1,7 +1,7 @@
 package dopewars;
 
 import dopewars.commands.CommandRegistry;
-import dopewars.data.Cache;
+import dopewars.handlers.PlayerHandler;
 import dopewars.data.DatabaseManager;
 import dopewars.handlers.TimeoutHandler;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -28,7 +28,7 @@ public class DopeWars extends ListenerAdapter {
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
     public final @NotNull DatabaseManager databaseManager;
-    public final @NotNull Cache cache;
+    public final @NotNull PlayerHandler playerHandler;
     public final @NotNull TimeoutHandler timeoutHandler;
 
     /**
@@ -47,7 +47,7 @@ public class DopeWars extends ListenerAdapter {
 
         //Create Managers & Modules
         databaseManager = new DatabaseManager(config.get("DATABASE"));
-        cache = new Cache(databaseManager);
+        playerHandler = new PlayerHandler(databaseManager);
         timeoutHandler = new TimeoutHandler();
     }
 

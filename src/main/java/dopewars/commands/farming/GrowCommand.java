@@ -64,7 +64,7 @@ public class GrowCommand extends Command {
         if (plant == Plants.CANNABIS || plant == Plants.MUSHROOMS) {
             itemType = ItemTypes.DRUGS;
         }
-        bot.cache.addItem(user.getIdLong(), plantKey, amount, itemType);
+        bot.playerHandler.addItem(user.getIdLong(), plantKey, amount, itemType);
         bot.timeoutHandler.addTimeout(user.getIdLong(), timeoutType);
 
         // Reply to user with message

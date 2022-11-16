@@ -34,7 +34,7 @@ public class ProfileCommand extends Command {
         User user;
         if (option != null) {
             user = option.getAsUser();
-            if (bot.cache.getPlayer(user.getIdLong()) == null) {
+            if (bot.playerHandler.getPlayer(user.getIdLong()) == null) {
                 String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
                 event.getHook().sendMessage(msg).queue();
                 return;
@@ -44,7 +44,7 @@ public class ProfileCommand extends Command {
         }
 
         // Retrieve player profile from cache
-        Player player = bot.cache.getPlayer(user.getIdLong());
+        Player player = bot.playerHandler.getPlayer(user.getIdLong());
 
         // Display in message embed
         String stats = ":gun: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
