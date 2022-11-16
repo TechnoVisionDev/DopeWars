@@ -15,7 +15,7 @@ public class TimeoutHandler {
     private static final long ONE_HOUR = 60 * ONE_MINUTE;
     private static final long ONE_DAY = 24 * ONE_MINUTE;
 
-    private final Map<Long, Map<Timeouts, Long>> timeouts;
+    private final Map<Long, Map<TimeoutType, Long>> timeouts;
 
     /**
      * Setup datastructures to hold timeouts.
@@ -30,7 +30,7 @@ public class TimeoutHandler {
      * @param user_id the ID of the user who ran the command.
      * @param timeout the timeout type based on the command that was run.
      */
-    public void addTimeout(long user_id, Timeouts timeout) {
+    public void addTimeout(long user_id, TimeoutType timeout) {
         timeouts.putIfAbsent(user_id, new HashMap<>());
         timeouts.get(user_id).put(timeout, System.currentTimeMillis() + timeout.time);
     }
@@ -42,8 +42,8 @@ public class TimeoutHandler {
      * @param timeout the timeout type based on the command that was run.
      * @return true if user is on timeout, otherwise false.
      */
-    public boolean isOnTimeout(long user_id, Timeouts timeout) {
-        Map<Timeouts, Long> userTimeouts = timeouts.get(user_id);
+    public boolean isOnTimeout(long user_id, TimeoutType timeout) {
+        Map<TimeoutType, Long> userTimeouts = timeouts.get(user_id);
         if (userTimeouts != null) {
             Long timestamp = userTimeouts.get(timeout);
             if (timestamp != null) {
@@ -60,8 +60,8 @@ public class TimeoutHandler {
      * @param timeout the timeout type based on the command that was run.
      * @return a string version displaying the time left on timeout.
      */
-    public String getTimeout(long user_id, Timeouts timeout) {
-        Map<Timeouts, Long> userTimeouts = timeouts.get(user_id);
+    public String getTimeout(long user_id, TimeoutType timeout) {
+        Map<TimeoutType, Long> userTimeouts = timeouts.get(user_id);
         if (userTimeouts != null) {
             Long timestamp = userTimeouts.get(timeout);
             if (timestamp != null) {
@@ -78,12 +78,13 @@ public class TimeoutHandler {
      * Represents the different types of timeouts available.
      * Each timeout is tied to a command of the same name.
      */
-    public enum Timeouts {
-        GROW(15 * ONE_MINUTE);
+    public enum TimeoutType {
+        GROW(15 * ONE_MINUTE),
+        CRIME(ONE_HOUR);
 
         public final long time;
 
-        Timeouts(long time) {
+        TimeoutType(long time) {
             this.time = time;
         }
     }

@@ -40,13 +40,13 @@ public class DepositCommand extends Command {
         }
 
         // Calculate amount to deposit
-        String value = CURRENCY + " " + NUM_FORMAT.format(cash);
         OptionMapping amountOption = event.getOption("amount");
         long amount;
         if (amountOption != null) {
             amount = amountOption.getAsLong();
             if (amountOption.getAsLong() > cash) {
                 // Amount is higher than balance
+                String value = CURRENCY + " " + NUM_FORMAT.format(amount);
                 event.reply(FAIL + " You cannot deposit more than " + value + "!").setEphemeral(true).queue();
                 return;
             }
@@ -56,6 +56,7 @@ public class DepositCommand extends Command {
 
         // Deposit and send response message
         bot.economyHandler.deposit(player, amount);
+        String value = CURRENCY + " " + NUM_FORMAT.format(amount);
         event.reply(SUCCESS + " Deposited " + value + " to your bank!").queue();
     }
 }

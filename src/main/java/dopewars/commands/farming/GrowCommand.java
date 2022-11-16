@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class GrowCommand extends Command {
 
-    public static final TimeoutHandler.Timeouts timeoutType = TimeoutHandler.Timeouts.GROW;
+    public static final TimeoutHandler.TimeoutType timeoutType = TimeoutHandler.TimeoutType.GROW;
 
     public GrowCommand(DopeWars bot) {
         super(bot);
@@ -39,7 +39,7 @@ public class GrowCommand extends Command {
         if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
             // Display remaining timeout
             String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
-            event.reply("You already grew some plants, wait at least **"+cooldown+"**...").queue();
+            event.reply(":stopwatch: You already grew some plants, wait at least **"+cooldown+"**...").setEphemeral(true).queue();
             return;
         }
 

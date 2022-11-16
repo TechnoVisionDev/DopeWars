@@ -1,7 +1,7 @@
 package dopewars;
 
 import dopewars.commands.CommandRegistry;
-import dopewars.handlers.EconomyHandler;
+import dopewars.handlers.economy.EconomyHandler;
 import dopewars.handlers.PlayerHandler;
 import dopewars.data.DatabaseManager;
 import dopewars.handlers.TimeoutHandler;
@@ -51,7 +51,7 @@ public class DopeWars extends ListenerAdapter {
         databaseManager = new DatabaseManager(config.get("DATABASE"));
         playerHandler = new PlayerHandler(databaseManager);
         timeoutHandler = new TimeoutHandler();
-        economyHandler = new EconomyHandler(databaseManager);
+        economyHandler = new EconomyHandler(this);
     }
 
     /**

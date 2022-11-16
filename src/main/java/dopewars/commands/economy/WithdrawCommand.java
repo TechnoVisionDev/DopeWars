@@ -40,13 +40,13 @@ public class WithdrawCommand extends Command {
         }
 
         // Calculate amount to withdraw
-        String value = CURRENCY + " " + NUM_FORMAT.format(bank);
         OptionMapping amountOption = event.getOption("amount");
         long amount;
         if (amountOption != null) {
             amount = amountOption.getAsLong();
             if (amountOption.getAsLong() > bank) {
                 // Amount is higher than bank balance
+                String value = CURRENCY + " " + NUM_FORMAT.format(amount);
                 event.reply(FAIL + " You cannot withdraw more than " + value + "!").setEphemeral(true).queue();
                 return;
             }
@@ -56,6 +56,7 @@ public class WithdrawCommand extends Command {
 
         // Deposit and send response message
         bot.economyHandler.withdraw(player, amount);
+        String value = CURRENCY + " " + NUM_FORMAT.format(amount);
         event.reply(SUCCESS + " Withdrew " + value + " from your bank!").queue();
     }
 }
