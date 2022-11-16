@@ -31,7 +31,12 @@ public abstract class Command extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getName().equals(name)) {
-            execute(event);
+            if (event.getName().equalsIgnoreCase("start") || bot.cache.getPlayer(event.getUser().getIdLong()) != null) {
+                execute(event);
+            } else {
+                String msg = "You must begin your journey with **/start** before using that command!";
+                event.reply(msg).queue();
+            }
         }
     }
 }
