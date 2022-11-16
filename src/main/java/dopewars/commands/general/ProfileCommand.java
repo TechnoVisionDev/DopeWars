@@ -11,6 +11,10 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+import java.text.DecimalFormat;
+
+import static dopewars.DopeWars.NUM_FORMAT;
+
 /**
  * Command that shows a player's profile stats.
  *
@@ -33,7 +37,7 @@ public class ProfileCommand extends Command {
         if (option != null) {
             user = option.getAsUser();
             if (bot.cache.getPlayer(user.getIdLong()) == null) {
-                String msg = "@"+event.getUser().getAsTag()+"! You cannot do this because **"+user.getName()+"** has never played!";
+                String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
                 event.getHook().sendMessage(msg).queue();
                 return;
             }
@@ -45,16 +49,17 @@ public class ProfileCommand extends Command {
         Player player = bot.cache.getPlayer(user.getIdLong());
 
         // Display in message embed
-        String stats = ":gun: **AT**: "+ player.getAttack() +
-                "\n:shield: **DEF**: "+ player.getDefense() +
-                "\n:heart: **LIFE**: "+ player.getHealth() + "/" + player.getMaxHealth();
+        String stats = ":gun: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
+                "\n:shield: **DEF**: "+ NUM_FORMAT.format(player.getDefense()) +
+                "\n:heart: **LIFE**: "+ NUM_FORMAT.format(player.getHealth()) +
+                "/" + NUM_FORMAT.format(player.getMaxHealth());
 
         String equipment = "No weapon" +
                 "\nNo armor" +
                 "\nNo vehicle";
 
-        String money = ":dollar: **Cash**: "+ player.getCash() +
-                "\n:bank: **Bank**: "+ player.getBank();
+        String money = ":dollar: **Cash**: "+ NUM_FORMAT.format(player.getCash()) +
+                "\n:bank: **Bank**: "+ NUM_FORMAT.format(player.getBank());
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)

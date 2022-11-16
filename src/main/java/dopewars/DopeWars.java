@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
+import java.text.DecimalFormat;
 
 /**
  * Discord bot built with JDA.
@@ -20,6 +21,8 @@ import javax.security.auth.login.LoginException;
  * @version 1.0
  */
 public class DopeWars extends ListenerAdapter {
+
+    public static final DecimalFormat NUM_FORMAT = new DecimalFormat("#,###");
 
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
