@@ -23,7 +23,7 @@ public class InventoryCommand extends Command {
     public InventoryCommand(DopeWars bot) {
         super(bot);
         this.name = "inventory";
-        this.description = "Display your items";
+        this.description = "Display your items.";
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's inventory"));
     }
 

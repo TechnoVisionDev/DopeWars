@@ -2,6 +2,7 @@ package dopewars.commands;
 
 import dopewars.DopeWars;
 import dopewars.commands.economy.BalanceCommand;
+import dopewars.commands.economy.DepositCommand;
 import dopewars.commands.general.InventoryCommand;
 import dopewars.commands.general.ProfileCommand;
 import dopewars.commands.general.StartCommand;
@@ -40,6 +41,7 @@ public class CommandRegistry extends ListenerAdapter {
 
         //Economy commands
         commands.add(new BalanceCommand(bot));
+        commands.add(new DepositCommand(bot));
 
         //Register commands as listeners
         for (Command command : commands) {

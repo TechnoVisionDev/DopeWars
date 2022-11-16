@@ -25,7 +25,7 @@ public class GrowCommand extends Command {
     public GrowCommand(DopeWars bot) {
         super(bot);
         this.name = "grow";
-        this.description = "Grow various plants for resources";
+        this.description = "Grow plants for resources.";
         OptionData data = new OptionData(OptionType.STRING, "plant", "the plant you want to grow", true);
         for (Plants plant : Plants.values()) {
             data.addChoice(plant.name, plant.toString().toUpperCase());

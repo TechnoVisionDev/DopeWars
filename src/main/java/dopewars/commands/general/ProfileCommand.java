@@ -23,7 +23,7 @@ public class ProfileCommand extends Command {
     public ProfileCommand(DopeWars bot) {
         super(bot);
         this.name = "profile";
-        this.description = "Display your profile stats";
+        this.description = "Display your profile stats.";
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's profile"));
     }
 

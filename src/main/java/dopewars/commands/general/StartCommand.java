@@ -15,7 +15,7 @@ public class StartCommand extends Command {
     public StartCommand(DopeWars bot) {
         super(bot);
         this.name = "start";
-        this.description = "Start your journey";
+        this.description = "Start your journey.";
     }
 
     public void execute(SlashCommandInteractionEvent event) {

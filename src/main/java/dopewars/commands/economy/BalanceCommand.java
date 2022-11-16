@@ -24,7 +24,7 @@ public class BalanceCommand extends Command {
     public BalanceCommand(DopeWars bot) {
         super(bot);
         this.name = "balance";
-        this.description = "Display your current balance";
+        this.description = "Display your current balance.";
         this.args.add(new OptionData(OptionType.USER, "user", "See another user's balance"));
     }
 
