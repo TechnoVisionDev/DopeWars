@@ -29,22 +29,14 @@ public class InventoryCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        // Get user
-        event.deferReply().queue();
-        OptionMapping option = event.getOption("user");
-        User user;
-        Player player;
-        if (option != null) {
-            user = option.getAsUser();
-            player = bot.playerHandler.getPlayer(option.getAsUser().getIdLong());
-            if (player == null) {
-                String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
-                event.getHook().sendMessage(msg).queue();
-                return;
-            }
-        } else {
-            user = event.getUser();
-            player = bot.playerHandler.getPlayer(user.getIdLong());
+        // Get user and player
+        OptionMapping userOption = event.getOption("user");
+        User user = (userOption != null) ? userOption.getAsUser() : event.getUser();
+        Player player = bot.playerHandler.getPlayer(user.getIdLong());
+        if (player == null) {
+            String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
+            event.reply(msg).queue();
+            return;
         }
 
         // Retrieve materials from cache
@@ -90,6 +82,6 @@ public class InventoryCommand extends Command {
                 .addField("Materials", materials.toString(), true)
                 .addField("Drugs", drugs.toString(), true)
                 .addField("Equipment", equipment.toString(), true);
-        event.getHook().sendMessageEmbeds(embed.build()).queue();
+        event.replyEmbeds(embed.build()).queue();
     }
 }

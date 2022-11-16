@@ -35,12 +35,11 @@ public class GrowCommand extends Command {
 
     public void execute(SlashCommandInteractionEvent event) {
         // Check if command is on timeout
-        event.deferReply().queue();
         User user = event.getUser();
         if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
             // Display remaining timeout
             String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
-            event.getHook().sendMessage("You already grew some plants, wait at least **"+cooldown+"**...").queue();
+            event.reply("You already grew some plants, wait at least **"+cooldown+"**...").queue();
             return;
         }
 
@@ -71,6 +70,6 @@ public class GrowCommand extends Command {
         String username = user.getName();
         String name = plant.name;
         String emoji = plant.emoji;
-        event.getHook().sendMessage("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
+        event.reply("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
     }
 }

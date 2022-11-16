@@ -28,23 +28,15 @@ public class ProfileCommand extends Command {
     }
 
     public void execute(SlashCommandInteractionEvent event) {
-        // Get user
-        event.deferReply().queue();
-        OptionMapping option = event.getOption("user");
-        User user;
-        if (option != null) {
-            user = option.getAsUser();
-            if (bot.playerHandler.getPlayer(user.getIdLong()) == null) {
-                String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
-                event.getHook().sendMessage(msg).queue();
-                return;
-            }
-        } else {
-            user = event.getUser();
-        }
-
-        // Retrieve player profile from cache
+        // Get user and player
+        OptionMapping userOption = event.getOption("user");
+        User user = (userOption != null) ? userOption.getAsUser() : event.getUser();
         Player player = bot.playerHandler.getPlayer(user.getIdLong());
+        if (player == null) {
+            String msg = event.getUser().getAsMention()+" You cannot do this because **"+user.getName()+"** has never played!";
+            event.reply(msg).queue();
+            return;
+        }
 
         // Display in message embed
         String progress = "**Level:** "+ NUM_FORMAT.format(player.getLevel()) +
@@ -71,6 +63,6 @@ public class ProfileCommand extends Command {
                 .addField("STATS", stats, false)
                 .addField("EQUIPMENT", equipment, true)
                 .addField("MONEY", money, true);
-        event.getHook().sendMessageEmbeds(embed.build()).queue();
+        event.replyEmbeds(embed.build()).queue();
     }
 }
