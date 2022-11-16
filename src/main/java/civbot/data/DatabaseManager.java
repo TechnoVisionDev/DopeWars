@@ -38,9 +38,9 @@ public class DatabaseManager {
                 .codecRegistry(codecRegistry)
                 .build();
         MongoClient mongoClient = MongoClients.create(clientSettings);
-        MongoDatabase database = mongoClient.getDatabase("CivBot");
+        MongoDatabase database = mongoClient.getDatabase("DopeWars");
 
         // Initialize collections if they don't exist.
-        players = database.getCollection("users", Player.class);
+        players = database.getCollection("players", Player.class);
     }
 }

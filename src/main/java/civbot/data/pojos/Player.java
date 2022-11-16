@@ -6,20 +6,35 @@ import java.util.Map;
 public class Player {
 
     private long user_id;
-    private long gold;
+    private long cash;
+    private long bank;
+    private int attack;
+    private int defense;
+    private int maxHealth;
+    private int health;
     private Map<String, Long> inventory;
 
     public Player() { }
 
-    public Player(long user_id, long gold, Map<String, Long> inventory) {
+    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, Map<String, Long> inventory) {
         this.user_id = user_id;
-        this.gold = gold;
+        this.cash = cash;
+        this.bank = bank;
+        this.attack = attack;
+        this.defense = defense;
+        this.maxHealth = maxHealth;
+        this.health = health;
         this.inventory = inventory;
     }
 
     public Player(long user_id) {
         this.user_id = user_id;
-        this.gold = 0;
+        this.cash = 0;
+        this.bank = 0;
+        this.attack = 1;
+        this.defense = 1;
+        this.maxHealth = 100;
+        this.health = 100;
         this.inventory = new HashMap<>();
     }
 
@@ -31,12 +46,56 @@ public class Player {
         this.user_id = user_id;
     }
 
-    public long getGold() {
-        return gold;
+    public long getCash() {
+        return cash;
     }
 
-    public void setGold(long gold) {
-        this.gold = gold;
+    public void setCash(long cash) {
+        this.cash = cash;
+    }
+
+    public long getBank() {
+        return bank;
+    }
+
+    public void setBank(long bank) {
+        this.bank = bank;
+    }
+
+    public long getNetworth() {
+        return cash + bank;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Map<String, Long> getInventory() {

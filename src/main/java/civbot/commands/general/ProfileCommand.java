@@ -4,9 +4,6 @@ import civbot.CivBot;
 import civbot.commands.Command;
 import civbot.data.pojos.Player;
 import civbot.util.EmbedColor;
-import civbot.util.Materials;
-import civbot.util.Professions;
-import com.mongodb.client.model.Filters;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,19 +11,20 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import java.util.Locale;
-import java.util.Map;
+/**
+ * Command that shows a player's profile stats.
+ *
+ * @author TechnoVision
+ */
+public class ProfileCommand extends Command {
 
-public class InventoryCommand extends Command {
-
-    public InventoryCommand(CivBot bot) {
+    public ProfileCommand(CivBot bot) {
         super(bot);
-        this.name = "inventory";
-        this.description = "Display your items";
-        this.args.add(new OptionData(OptionType.USER, "player", "See another user's inventory"));
+        this.name = "profile";
+        this.description = "Display your profile stats";
+        this.args.add(new OptionData(OptionType.USER, "user", "See another user's profile"));
     }
 
-    @Override
     public void execute(SlashCommandInteractionEvent event) {
         // Get user
         event.deferReply().queue();
@@ -43,25 +41,29 @@ public class InventoryCommand extends Command {
             user = event.getUser();
         }
 
-        // Retrieve materials from cache
-        StringBuilder materials = new StringBuilder();
-        for (Map.Entry<String,Long> entry : bot.cache.getPlayer(user.getIdLong()).getInventory().entrySet()) {
-            try {
-                Materials material = Materials.valueOf(entry.getKey().toUpperCase());
-                materials.append(material.emoji)
-                        .append(" ").append("**").append(material.name).append(":**")
-                        .append(" ").append(entry.getValue())
-                        .append("\n");
-            } catch (IllegalArgumentException ignored) { }
-        }
+        // Retrieve player profile from cache
+        Player player = bot.cache.getPlayer(user.getIdLong());
 
         // Display in message embed
+        String stats = ":gun: **AT**: "+ player.getAttack() +
+                "\n:shield: **DEF**: "+ player.getDefense() +
+                "\n:heart: **LIFE**: "+ player.getHealth() + "/" + player.getMaxHealth();
+
+        String equipment = "No weapon" +
+                "\nNo armor" +
+                "\nNo vehicle";
+
+        String money = ":dollar: **Cash**: "+ player.getCash() +
+                "\n:bank: **Bank**: "+ player.getBank() +
+                "\n:bar_chart: **Networth**: "+ player.getNetworth();
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
-                .setAuthor(user.getName()+"'s Inventory", null, user.getEffectiveAvatarUrl())
-                .addField("Materials", materials.toString(), true)
-                .addField("Drugs", "", true)
-                .addField("Equipment", "", true);
+                .setAuthor(user.getName()+"'s Profile", null, user.getEffectiveAvatarUrl())
+                .setThumbnail(user.getEffectiveAvatarUrl())
+                .addField("STATS", stats, false)
+                .addField("EQUIPMENT", equipment, true)
+                .addField("MONEY", money, true);
         event.getHook().sendMessageEmbeds(embed.build()).queue();
     }
 }
