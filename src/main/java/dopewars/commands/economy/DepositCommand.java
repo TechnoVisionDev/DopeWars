@@ -57,6 +57,6 @@ public class DepositCommand extends Command {
         // Deposit and send response message
         bot.economyHandler.deposit(player, amount);
         String value = CURRENCY + " " + NUM_FORMAT.format(amount);
-        event.reply(SUCCESS + " Deposited " + value + " to your bank!").queue();
+        event.reply("**" + user.getName() + "** deposited " + value + " to their bank!").queue();
     }
 }

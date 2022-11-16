@@ -57,6 +57,6 @@ public class WithdrawCommand extends Command {
         // Deposit and send response message
         bot.economyHandler.withdraw(player, amount);
         String value = CURRENCY + " " + NUM_FORMAT.format(amount);
-        event.reply(SUCCESS + " Withdrew " + value + " from your bank!").queue();
+        event.reply("**" + user.getName() + "** withdrew " + value + " from their bank!").queue();
     }
 }
