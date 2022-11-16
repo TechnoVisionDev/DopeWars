@@ -2,6 +2,7 @@ package dopewars.commands.farming;
 
 import dopewars.DopeWars;
 import dopewars.commands.Command;
+import dopewars.handlers.TimeoutHandler;
 import dopewars.items.ItemTypes;
 import dopewars.items.Plants;
 import net.dv8tion.jda.api.entities.User;
@@ -12,12 +13,14 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Gives the player 1-3 of a selected plant.
- * Acts as an "action" and thus has a cooldown timer.
+ * Gives the player a random amount of a selected plant.
+ * Acts as an "action" and thus has a timeout.
  *
  * @author TechnoVision
  */
 public class GrowCommand extends Command {
+
+    public static final TimeoutHandler.Timeouts timeoutType = TimeoutHandler.Timeouts.GROW;
 
     public GrowCommand(DopeWars bot) {
         super(bot);
@@ -31,7 +34,17 @@ public class GrowCommand extends Command {
     }
 
     public void execute(SlashCommandInteractionEvent event) {
+        // Check if command is on timeout
         event.deferReply().queue();
+        User user = event.getUser();
+        if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
+            // Display remaining timeout
+            String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
+            event.getHook().sendMessage("You already grew some plants, wait at least **"+cooldown+"**...").queue();
+            return;
+        }
+
+        // Get selected plant type
         String plantKey = event.getOption("plant").getAsString();
         Plants plant = Plants.valueOf(plantKey);
 
@@ -46,23 +59,18 @@ public class GrowCommand extends Command {
             amount = 3;
         }
 
-        // Update cache and database
-        User user = event.getUser();
+        // Add item to player's inventory and enable timeout
         ItemTypes itemType = ItemTypes.MATERIALS;
         if (plant == Plants.CANNABIS || plant == Plants.MUSHROOMS) {
             itemType = ItemTypes.DRUGS;
         }
-        boolean result = bot.cache.addItem(user.getIdLong(), plantKey, amount, itemType);
+        bot.cache.addItem(user.getIdLong(), plantKey, amount, itemType);
+        bot.timeoutHandler.addTimeout(user.getIdLong(), timeoutType);
 
-        if (result) {
-            // Reply to user with message
-            String username = user.getName();
-            String name = plant.name;
-            String emoji = plant.emoji;
-            event.getHook().sendMessage("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
-        } else {
-            String cooldown = bot.cache.getGrowCooldown(user.getIdLong());
-            event.getHook().sendMessage("You already grew some plants, wait at least **"+cooldown+"**...").queue();
-        }
+        // Reply to user with message
+        String username = user.getName();
+        String name = plant.name;
+        String emoji = plant.emoji;
+        event.getHook().sendMessage("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
     }
 }

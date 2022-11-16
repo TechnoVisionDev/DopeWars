@@ -3,6 +3,7 @@ package dopewars;
 import dopewars.commands.CommandRegistry;
 import dopewars.data.Cache;
 import dopewars.data.DatabaseManager;
+import dopewars.handlers.TimeoutHandler;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -28,6 +29,7 @@ public class DopeWars extends ListenerAdapter {
     public final @NotNull ShardManager shardManager;
     public final @NotNull DatabaseManager databaseManager;
     public final @NotNull Cache cache;
+    public final @NotNull TimeoutHandler timeoutHandler;
 
     /**
      * Builds bot shards and registers commands and modules.
@@ -46,6 +48,7 @@ public class DopeWars extends ListenerAdapter {
         //Create Managers & Modules
         databaseManager = new DatabaseManager(config.get("DATABASE"));
         cache = new Cache(databaseManager);
+        timeoutHandler = new TimeoutHandler();
     }
 
     /**
