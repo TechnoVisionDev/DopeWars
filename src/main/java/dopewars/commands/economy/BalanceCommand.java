@@ -11,8 +11,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import static dopewars.DopeWars.CURRENCY;
 import static dopewars.DopeWars.NUM_FORMAT;
+import static dopewars.util.Emojis.CURRENCY;
 
 /**
  * Command that shows a player's balance.

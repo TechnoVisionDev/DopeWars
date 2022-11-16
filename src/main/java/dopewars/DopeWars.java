@@ -25,7 +25,6 @@ import java.text.DecimalFormat;
 public class DopeWars extends ListenerAdapter {
 
     public static final DecimalFormat NUM_FORMAT = new DecimalFormat("#,###");
-    public static final String CURRENCY = ":dollar:";
 
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;

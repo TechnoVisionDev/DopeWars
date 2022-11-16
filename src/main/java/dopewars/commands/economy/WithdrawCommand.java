@@ -15,47 +15,47 @@ import static dopewars.util.Emojis.FAIL;
 import static dopewars.util.Emojis.SUCCESS;
 
 /**
- * Command that deposits cash into the bank.
+ * Command that withdraws cash from the bank.
  *
  * @author TechnoVision
  */
-public class DepositCommand extends Command {
+public class WithdrawCommand extends Command {
 
-    public DepositCommand(DopeWars bot) {
+    public WithdrawCommand(DopeWars bot) {
         super(bot);
-        this.name = "deposit";
-        this.description = "Deposit your money to the bank.";
-        this.args.add(new OptionData(OptionType.INTEGER, "amount", "The amount of money you want to deposit.").setMinValue(1));
+        this.name = "withdraw";
+        this.description = "Withdraw your money from the bank.";
+        this.args.add(new OptionData(OptionType.INTEGER, "amount", "The amount of money you want to withdraw.").setMinValue(1));
     }
 
     public void execute(SlashCommandInteractionEvent event) {
         User user = event.getUser();
         Player player = bot.playerHandler.getPlayer(user.getIdLong());
 
-        // Check if cash balance is 0
-        long cash = player.getCash();
-        if (cash <= 0) {
-            event.reply(FAIL + " You don't have any cash to deposit!").setEphemeral(true).queue();
+        // Check if banl balance is 0
+        long bank = player.getBank();
+        if (bank <= 0) {
+            event.reply(FAIL + " You don't have any cash to withdraw!").setEphemeral(true).queue();
             return;
         }
 
-        // Calculate amount to deposit
-        String value = CURRENCY + " " + NUM_FORMAT.format(cash);
+        // Calculate amount to withdraw
+        String value = CURRENCY + " " + NUM_FORMAT.format(bank);
         OptionMapping amountOption = event.getOption("amount");
         long amount;
         if (amountOption != null) {
             amount = amountOption.getAsLong();
-            if (amountOption.getAsLong() > cash) {
-                // Amount is higher than balance
-                event.reply(FAIL + " You cannot deposit more than " + value + "!").setEphemeral(true).queue();
+            if (amountOption.getAsLong() > bank) {
+                // Amount is higher than bank balance
+                event.reply(FAIL + " You cannot withdraw more than " + value + "!").setEphemeral(true).queue();
                 return;
             }
         } else {
-            amount = cash;
+            amount = bank;
         }
 
         // Deposit and send response message
-        bot.economyHandler.deposit(player, amount);
-        event.reply(SUCCESS + " Deposited " + value + " to your bank!").queue();
+        bot.economyHandler.withdraw(player, amount);
+        event.reply(SUCCESS + " Withdrew " + value + " from your bank!").queue();
     }
 }
