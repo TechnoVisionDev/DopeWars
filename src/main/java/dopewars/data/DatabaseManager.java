@@ -1,5 +1,6 @@
 package dopewars.data;
 
+import com.mongodb.client.model.Indexes;
 import dopewars.data.pojos.Player;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -9,6 +10,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 import org.jetbrains.annotations.NotNull;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
@@ -42,5 +44,9 @@ public class DatabaseManager {
 
         // Initialize collections if they don't exist.
         players = database.getCollection("players", Player.class);
+
+        // Add index to collection
+        Bson userIndex = Indexes.descending("user_id");
+        players.createIndex(userIndex);
     }
 }
