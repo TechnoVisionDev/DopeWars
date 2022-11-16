@@ -1,6 +1,7 @@
 package dopewars.commands;
 
 import dopewars.DopeWars;
+import dopewars.commands.economy.BalanceCommand;
 import dopewars.commands.general.InventoryCommand;
 import dopewars.commands.general.ProfileCommand;
 import dopewars.commands.general.StartCommand;
@@ -36,6 +37,9 @@ public class CommandRegistry extends ListenerAdapter {
 
         //Farming commands
         commands.add(new GrowCommand(bot));
+
+        //Economy commands
+        commands.add(new BalanceCommand(bot));
 
         //Register commands as listeners
         for (Command command : commands) {
