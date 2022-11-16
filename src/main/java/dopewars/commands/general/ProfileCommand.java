@@ -47,14 +47,18 @@ public class ProfileCommand extends Command {
         Player player = bot.playerHandler.getPlayer(user.getIdLong());
 
         // Display in message embed
+        String progress = "**Level:** "+ NUM_FORMAT.format(player.getLevel()) +
+                "\n**Rank**: 1"+
+                "\n**Prestige**: "+ NUM_FORMAT.format(player.getPrestige());
+
         String stats = ":gun: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
                 "\n:shield: **DEF**: "+ NUM_FORMAT.format(player.getDefense()) +
                 "\n:heart: **LIFE**: "+ NUM_FORMAT.format(player.getHealth()) +
                 "/" + NUM_FORMAT.format(player.getMaxHealth());
 
-        String equipment = "No weapon" +
-                "\nNo armor" +
-                "\nNo vehicle";
+        String equipment = ":x: No weapon" +
+                "\n:x: No armor" +
+                "\n:x: No vehicle";
 
         String money = ":dollar: **Cash**: "+ NUM_FORMAT.format(player.getCash()) +
                 "\n:bank: **Bank**: "+ NUM_FORMAT.format(player.getBank());
@@ -63,6 +67,7 @@ public class ProfileCommand extends Command {
                 .setColor(EmbedColor.DEFAULT.color)
                 .setAuthor(user.getName()+"'s Profile", null, user.getEffectiveAvatarUrl())
                 .setThumbnail(user.getEffectiveAvatarUrl())
+                .addField("PROGRESS", progress, false)
                 .addField("STATS", stats, false)
                 .addField("EQUIPMENT", equipment, true)
                 .addField("MONEY", money, true);
