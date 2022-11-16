@@ -1,4 +1,4 @@
-package civbot.util;
+package dopewars.util;
 
 /**
  * Utility enum storing color codes and helpful methods.

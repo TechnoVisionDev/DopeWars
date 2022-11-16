@@ -1,4 +1,4 @@
-package civbot.data.pojos;
+package dopewars.data.pojos;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,10 +60,6 @@ public class Player {
 
     public void setBank(long bank) {
         this.bank = bank;
-    }
-
-    public long getNetworth() {
-        return cash + bank;
     }
 
     public int getAttack() {

@@ -1,11 +1,10 @@
-package civbot.commands;
+package dopewars.commands;
 
-import civbot.CivBot;
-import civbot.commands.general.InventoryCommand;
-import civbot.commands.general.JoinCommand;
-import civbot.commands.general.ProfileCommand;
-import civbot.commands.general.StartCommand;
-import civbot.commands.woodcutting.ChopCommand;
+import dopewars.DopeWars;
+import dopewars.commands.general.InventoryCommand;
+import dopewars.commands.general.ProfileCommand;
+import dopewars.commands.general.StartCommand;
+import dopewars.commands.woodcutting.ChopCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -27,13 +26,12 @@ public class CommandRegistry extends ListenerAdapter {
     /**
      * Adds commands to a global list and registers them as event listener.
      *
-     * @param bot An instance of CivBot.
+     * @param bot An instance of DopeWars bot.
      */
-    public CommandRegistry(CivBot bot) {
+    public CommandRegistry(DopeWars bot) {
         //General commands
         commands.add(new StartCommand(bot));
         commands.add(new ProfileCommand(bot));
-        commands.add(new JoinCommand(bot));
         commands.add(new InventoryCommand(bot));
 
         //Woodcutting commands

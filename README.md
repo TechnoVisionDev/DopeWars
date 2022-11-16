@@ -29,20 +29,20 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/TechnoVisionDev/CivBot">
-    <img src="https://i.imgur.com/EXlIpl3.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/TechnoVisionDev/DopeWars">
+    <img src="https://i.imgur.com/1LLDnqj.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">CivBot</h3>
+  <h3 align="center">DopeWars</h3>
 
   <p align="center">
-    A discord bot game for building civilizations!
+    A discord bot game for building a criminal empire!
     <br />
-    <a href="https://github.com/TechnoVisionDev/CivBot/wiki">Visit Wiki</a>
+    <a href="https://github.com/TechnoVisionDev/DopeWars/wiki">Visit Wiki</a>
     ·
-    <a href="https://github.com/TechnoVisionDev/CivBot/issues">Report Bug</a>
+    <a href="https://github.com/TechnoVisionDev/DopeWars/issues">Report Bug</a>
     ·
-    <a href="https://github.com/TechnoVisionDev/CivBot/issues">Request Feature</a>
+    <a href="https://github.com/TechnoVisionDev/DopeWars/issues">Request Feature</a>
   </p>
 </div>
 
@@ -77,7 +77,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-CivBot is a community project to build a discord bot crafting game. Users can specialize in one of several professions and trade with other users to craft powerful items. The ultimate goal is to use these items to build the best civilization and top the leaderboards!
+DopeWars is a discord bot economy game where you build a criminal empire. Players can manufacture, buy, and sell goods in a dynamic economy while fighting each other for dominance. The ultimate goal is to become a kingpin of the underground and top the leaderboards!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -110,7 +110,7 @@ _Below are the necessary steps needed to run this project._
 
 1. Clone the repo:
    ```sh
-   git clone https://github.com/TechnoVisionDev/CivBot.git
+   git clone https://github.com/TechnoVisionDev/DopeWars.git
    ```
 2. Create a `.env` file in the root project folder and populate it with all the variables in `.env.example`.
 3. You can now run the application using maven.
@@ -151,7 +151,7 @@ Distributed under the [GNU GPLv3](https://www.gnu.org/) License. See `LICENSE.tx
 
 Thomas Peters - [@tomm__peters](https://twitter.com/tomm__peters) - tapeters@usc.edu
 
-Project Link: [https://github.com/TechnoVisionDev/CivBot](https://github.com/TechnoVisionDev/CivBot)
+Project Link: [https://github.com/TechnoVisionDev/DopeWars](https://github.com/TechnoVisionDev/DopeWars)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -172,16 +172,16 @@ Below are some resources that have been instrumental in making this project a re
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/TechnoVisionDev/TechnoBot-Dashboard.svg?style=for-the-badge
-[contributors-url]: https://github.com/TechnoVisionDev/TechnoBot-Dashboard/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/TechnoVisionDev/TechnoBot-Dashboard.svg?style=for-the-badge
-[forks-url]: https://github.com/TechnoVisionDev/TechnoBot-Dashboard/network/members
-[stars-shield]: https://img.shields.io/github/stars/TechnoVisionDev/TechnoBot-Dashboard.svg?style=for-the-badge
-[stars-url]: https://github.com/TechnoVisionDev/TechnoBot-Dashboard/stargazers
-[issues-shield]: https://img.shields.io/github/issues/TechnoVisionDev/TechnoBot-Dashboard.svg?style=for-the-badge
-[issues-url]: https://github.com/TechnoVisionDev/TechnoBot-Dashboard/issues
-[license-shield]: https://img.shields.io/github/license/TechnoVisionDev/TechnoBot-Dashboard.svg?style=for-the-badge
-[license-url]: https://github.com/TechnoVisionDev/TechnoBot-Dashboard/blob/main/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/TechnoVisionDev/DopeWars.svg?style=for-the-badge
+[contributors-url]: https://github.com/TechnoVisionDev/DopeWars/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TechnoVisionDev/DopeWars.svg?style=for-the-badge
+[forks-url]: https://github.com/TechnoVisionDev/DopeWars/network/members
+[stars-shield]: https://img.shields.io/github/stars/TechnoVisionDev/DopeWars.svg?style=for-the-badge
+[stars-url]: https://github.com/TechnoVisionDev/DopeWars/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TechnoVisionDev/DopeWars.svg?style=for-the-badge
+[issues-url]: https://github.com/TechnoVisionDev/DopeWars/issues
+[license-shield]: https://img.shields.io/github/license/TechnoVisionDev/DopeWars.svg?style=for-the-badge
+[license-url]: https://github.com/TechnoVisionDev/DopeWars/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/thomaspeters
 [product-screenshot]: src/main/webapp/assets/github/screenshot.png

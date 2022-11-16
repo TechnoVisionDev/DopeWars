@@ -1,6 +1,6 @@
-package civbot.commands;
+package dopewars.commands;
 
-import civbot.CivBot;
+import dopewars.DopeWars;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -16,12 +16,12 @@ import java.util.List;
  */
 public abstract class Command extends ListenerAdapter {
 
-    protected CivBot bot;
+    protected DopeWars bot;
     protected String name;
     protected String description;
     protected List<OptionData> args;
 
-    public Command(CivBot bot) {
+    public Command(DopeWars bot) {
         this.bot = bot;
         this.args = new ArrayList<>();
     }

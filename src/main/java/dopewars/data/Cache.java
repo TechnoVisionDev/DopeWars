@@ -1,6 +1,6 @@
-package civbot.data;
+package dopewars.data;
 
-import civbot.data.pojos.Player;
+import dopewars.data.pojos.Player;
 import org.bson.Document;
 
 import java.util.*;
@@ -17,7 +17,7 @@ public class Cache {
     private static final int FIVE_MINUTES = 5 * 60 * 1000;
 
     private final DatabaseManager databaseManager;
-    private final Map<Long, Player> users;
+    private final Map<Long, Player> players;
     private final Map<Long, Long> timeouts;
 
     /**
@@ -27,10 +27,10 @@ public class Cache {
      */
     public Cache(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
-        this.users = new HashMap<>();
+        this.players = new HashMap<>();
         this.timeouts = new HashMap<>();
         for (Player player : databaseManager.players.find()) {
-            users.put(player.getUser_id(), player);
+            players.put(player.getUser_id(), player);
         }
     }
 
@@ -40,7 +40,7 @@ public class Cache {
      * @param player database data for this player.
      */
     public void addPlayer(Player player) {
-        users.put(player.getUser_id(), player);
+        players.put(player.getUser_id(), player);
     }
 
     /**
@@ -50,7 +50,7 @@ public class Cache {
      * @return player POJO object.
      */
     public Player getPlayer(long id) {
-        return users.get(id);
+        return players.get(id);
     }
 
     /**
@@ -70,7 +70,7 @@ public class Cache {
         }
 
         // Add to cache
-        users.get(user_id).getInventory().merge(key, amount, Long::sum);
+        players.get(user_id).getInventory().merge(key, amount, Long::sum);
         timeouts.put(user_id, System.currentTimeMillis());
 
         // Add to database

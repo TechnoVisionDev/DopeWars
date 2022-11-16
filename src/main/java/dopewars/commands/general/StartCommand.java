@@ -1,8 +1,8 @@
-package civbot.commands.general;
+package dopewars.commands.general;
 
-import civbot.CivBot;
-import civbot.commands.Command;
-import civbot.data.pojos.Player;
+import dopewars.DopeWars;
+import dopewars.commands.Command;
+import dopewars.data.pojos.Player;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 /**
@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
  */
 public class StartCommand extends Command {
 
-    public StartCommand(CivBot bot) {
+    public StartCommand(DopeWars bot) {
         super(bot);
         this.name = "start";
         this.description = "Start your journey";

@@ -1,8 +1,8 @@
-package civbot;
+package dopewars;
 
-import civbot.commands.CommandRegistry;
-import civbot.data.Cache;
-import civbot.data.DatabaseManager;
+import dopewars.commands.CommandRegistry;
+import dopewars.data.Cache;
+import dopewars.data.DatabaseManager;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -19,7 +19,7 @@ import javax.security.auth.login.LoginException;
  * @author TechnVision
  * @version 1.0
  */
-public class CivBot extends ListenerAdapter {
+public class DopeWars extends ListenerAdapter {
 
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
@@ -31,7 +31,7 @@ public class CivBot extends ListenerAdapter {
      *
      * @throws LoginException throws if bot token is invalid.
      */
-    public CivBot() throws LoginException {
+    public DopeWars() throws LoginException {
         //Build JDA shards
         config = Dotenv.load();
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
@@ -46,14 +46,14 @@ public class CivBot extends ListenerAdapter {
     }
 
     /**
-     * Initialize CivBot.
+     * Initialize DopeWars bot.
      *
      * @param args ignored
      */
     public static void main(String[] args) {
-        CivBot bot;
+        DopeWars bot;
         try {
-            bot = new CivBot();
+            bot = new DopeWars();
         } catch (LoginException e) {
             System.out.println("ERROR: Provided bot token is invalid!");
         }

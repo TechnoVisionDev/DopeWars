@@ -1,8 +1,8 @@
-package civbot.commands.woodcutting;
+package dopewars.commands.woodcutting;
 
-import civbot.CivBot;
-import civbot.commands.Command;
-import civbot.util.Materials;
+import dopewars.DopeWars;
+import dopewars.commands.Command;
+import dopewars.util.Materials;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class ChopCommand extends Command {
 
-    public ChopCommand(CivBot bot) {
+    public ChopCommand(DopeWars bot) {
         super(bot);
         this.name = "chop";
         this.description = "Chop a tree [woodcutter]";

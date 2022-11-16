@@ -1,6 +1,6 @@
-package civbot.data;
+package dopewars.data;
 
-import civbot.data.pojos.Player;
+import dopewars.data.pojos.Player;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;

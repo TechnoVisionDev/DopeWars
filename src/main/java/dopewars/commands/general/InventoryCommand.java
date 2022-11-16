@@ -1,12 +1,9 @@
-package civbot.commands.general;
+package dopewars.commands.general;
 
-import civbot.CivBot;
-import civbot.commands.Command;
-import civbot.data.pojos.Player;
-import civbot.util.EmbedColor;
-import civbot.util.Materials;
-import civbot.util.Professions;
-import com.mongodb.client.model.Filters;
+import dopewars.DopeWars;
+import dopewars.commands.Command;
+import dopewars.util.EmbedColor;
+import dopewars.util.Materials;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,12 +11,11 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
-import java.util.Locale;
 import java.util.Map;
 
 public class InventoryCommand extends Command {
 
-    public InventoryCommand(CivBot bot) {
+    public InventoryCommand(DopeWars bot) {
         super(bot);
         this.name = "inventory";
         this.description = "Display your items";

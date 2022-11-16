@@ -1,4 +1,4 @@
-package civbot.util;
+package dopewars.util;
 
 /**
  * Represents materials that can be obtained and traded.

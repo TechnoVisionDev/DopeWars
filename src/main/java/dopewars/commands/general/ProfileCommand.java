@@ -1,9 +1,9 @@
-package civbot.commands.general;
+package dopewars.commands.general;
 
-import civbot.CivBot;
-import civbot.commands.Command;
-import civbot.data.pojos.Player;
-import civbot.util.EmbedColor;
+import dopewars.DopeWars;
+import dopewars.commands.Command;
+import dopewars.data.pojos.Player;
+import dopewars.util.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -18,7 +18,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
  */
 public class ProfileCommand extends Command {
 
-    public ProfileCommand(CivBot bot) {
+    public ProfileCommand(DopeWars bot) {
         super(bot);
         this.name = "profile";
         this.description = "Display your profile stats";
@@ -54,8 +54,7 @@ public class ProfileCommand extends Command {
                 "\nNo vehicle";
 
         String money = ":dollar: **Cash**: "+ player.getCash() +
-                "\n:bank: **Bank**: "+ player.getBank() +
-                "\n:bar_chart: **Networth**: "+ player.getNetworth();
+                "\n:bank: **Bank**: "+ player.getBank();
 
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
