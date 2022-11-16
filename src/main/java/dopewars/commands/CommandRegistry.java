@@ -4,7 +4,7 @@ import dopewars.DopeWars;
 import dopewars.commands.general.InventoryCommand;
 import dopewars.commands.general.ProfileCommand;
 import dopewars.commands.general.StartCommand;
-import dopewars.commands.woodcutting.ChopCommand;
+import dopewars.commands.farming.GrowCommand;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -34,8 +34,8 @@ public class CommandRegistry extends ListenerAdapter {
         commands.add(new ProfileCommand(bot));
         commands.add(new InventoryCommand(bot));
 
-        //Woodcutting commands
-        commands.add(new ChopCommand(bot));
+        //Farming commands
+        commands.add(new GrowCommand(bot));
 
         //Register commands as listeners
         for (Command command : commands) {

@@ -1,6 +1,8 @@
 package dopewars.data;
 
 import dopewars.data.pojos.Player;
+import dopewars.items.Drugs;
+import dopewars.items.ItemTypes;
 import org.bson.Document;
 
 import java.util.*;
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Cache {
 
     private static final int FIVE_MINUTES = 5 * 60 * 1000;
+    private static final int FIFTEEN_MINUTES = 15 * 60 * 1000;
 
     private final DatabaseManager databaseManager;
     private final Map<Long, Player> players;
@@ -61,28 +64,32 @@ public class Cache {
      * @param amount the amount of the item to add.
      * @return true is successful, false if on cooldown.
      */
-    public boolean addItem(long user_id, String key, long amount) {
+    public boolean addItem(long user_id, String key, long amount, ItemTypes type) {
         // Check if cooldown timer is active
         if (timeouts.containsKey(user_id)) {
-            if ((timeouts.get(user_id) - System.currentTimeMillis() + FIVE_MINUTES) > 0) {
+            if ((timeouts.get(user_id) - System.currentTimeMillis() + FIFTEEN_MINUTES) > 0) {
                 return false;
             }
         }
 
         // Add to cache
-        players.get(user_id).getInventory().merge(key, amount, Long::sum);
+        switch(type) {
+            case MATERIALS -> players.get(user_id).getMaterials().merge(key, amount, Long::sum);
+            case EQUIPMENT -> players.get(user_id).getEquipment().merge(key, amount, Long::sum);
+            case DRUGS -> players.get(user_id).getDrugs().merge(key, amount, Long::sum);
+        }
         timeouts.put(user_id, System.currentTimeMillis());
 
         // Add to database
         Document query = new Document("user_id", user_id);
-        Document update = new Document("$inc", new Document("inventory."+key, amount));
+        Document update = new Document("$inc", new Document(type.toString().toLowerCase()+"."+key, amount));
         databaseManager.players.updateOne(query, update);
         return true;
     }
 
-    public String getGatherCooldown(long user_id) {
+    public String getGrowCooldown(long user_id) {
         if (timeouts.containsKey(user_id)) {
-            long cooldown = FIVE_MINUTES - (System.currentTimeMillis() - timeouts.get(user_id));
+            long cooldown = FIFTEEN_MINUTES - (System.currentTimeMillis() - timeouts.get(user_id));
             long minutes = TimeUnit.MILLISECONDS.toMinutes(cooldown);
             long seconds = TimeUnit.MILLISECONDS.toSeconds(cooldown) - TimeUnit.MINUTES.toSeconds(minutes);
             return minutes + "m " + seconds + "s";

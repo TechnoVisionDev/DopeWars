@@ -1,4 +1,4 @@
-package dopewars.util;
+package dopewars.items;
 
 /**
  * Represents materials that can be obtained and traded.
@@ -7,15 +7,15 @@ package dopewars.util;
  */
 public enum Materials {
 
-    OAK_LOG("oak log", ":wood:", 0);
+    ERGOT("ergot", ":ear_of_rice:"),
+    OPIUM("opium", ":blossom:"),
+    SASSAFRAS("sassafras", ":herb:");
 
     public final String name;
     public final String emoji;
-    public final int id;
 
-    Materials(String name, String emoji, int id) {
+    Materials(String name, String emoji) {
         this.name = name;
         this.emoji = emoji;
-        this.id = id;
     }
 }

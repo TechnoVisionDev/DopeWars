@@ -12,11 +12,13 @@ public class Player {
     private int defense;
     private int maxHealth;
     private int health;
-    private Map<String, Long> inventory;
+    private Map<String, Long> materials;
+    private Map<String, Long> equipment;
+    private Map<String, Long> drugs;
 
     public Player() { }
 
-    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, Map<String, Long> inventory) {
+    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
         this.user_id = user_id;
         this.cash = cash;
         this.bank = bank;
@@ -24,7 +26,9 @@ public class Player {
         this.defense = defense;
         this.maxHealth = maxHealth;
         this.health = health;
-        this.inventory = inventory;
+        this.materials = materials;
+        this.equipment = equipment;
+        this.drugs = drugs;
     }
 
     public Player(long user_id) {
@@ -35,7 +39,9 @@ public class Player {
         this.defense = 1;
         this.maxHealth = 100;
         this.health = 100;
-        this.inventory = new HashMap<>();
+        this.materials = new HashMap<>();
+        this.equipment = new HashMap<>();
+        this.drugs = new HashMap<>();
     }
 
     public long getUser_id() {
@@ -94,11 +100,27 @@ public class Player {
         this.health = health;
     }
 
-    public Map<String, Long> getInventory() {
-        return inventory;
+    public Map<String, Long> getMaterials() {
+        return materials;
     }
 
-    public void setInventory(Map<String, Long> inventory) {
-        this.inventory = inventory;
+    public void setMaterials(Map<String, Long> materials) {
+        this.materials = materials;
+    }
+
+    public Map<String, Long> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(Map<String, Long> equipment) {
+        this.equipment = equipment;
+    }
+
+    public Map<String, Long> getDrugs() {
+        return drugs;
+    }
+
+    public void setDrugs(Map<String, Long> drugs) {
+        this.drugs = drugs;
     }
 }
