@@ -80,7 +80,8 @@ public class TimeoutHandler {
      */
     public enum TimeoutType {
         GROW(15 * ONE_MINUTE),
-        CRIME(ONE_HOUR);
+        CRIME(4 * ONE_HOUR),
+        ROB(4 * ONE_HOUR);
 
         public final long time;
 

@@ -5,10 +5,13 @@ import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
 import dopewars.data.pojos.Player;
 import dopewars.handlers.TimeoutHandler;
+import dopewars.util.Emojis;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import java.util.concurrent.ThreadLocalRandom;
+
+import static dopewars.DopeWars.NUM_FORMAT;
 
 /**
  * Handles interaction with the in-game economy.
@@ -92,6 +95,18 @@ public class EconomyHandler {
     }
 
     /**
+     * Transfer money from one user to another.
+     *
+     * @param player the player to transfer money from.
+     * @param target the player to transfer money to.
+     * @param amount the amount of money to transfer.
+     */
+    public void pay(Player player, Player target, long amount) {
+        removeMoney(player, amount);
+        addMoney(target, amount);
+    }
+
+    /**
      * 40% chance to add 250-700 to user's balance.
      * 60% chance to lose 20-40% of user's balance.
      *
@@ -114,6 +129,45 @@ public class EconomyHandler {
         }
         bot.timeoutHandler.addTimeout(player.getUser_id(), TimeoutHandler.TimeoutType.CRIME);
         return reply;
+    }
+
+    /**
+     * Attempt to steal another user's cash.
+     *
+     * @param player the player attempting the robbery.
+     * @param target the target player being robbed.
+     * @return an EconomyReply object with a response and success boolean.
+     */
+    public EconomyReply rob(Player player, Player target) {
+        // Calculate probability of failure (your networth / (their cash + your networth))
+        long userNetworth = player.getCash() + player.getBank();
+        long targetCash = target.getCash();
+        double failChance = (double) userNetworth / (targetCash + userNetworth);
+        if (failChance < 0.20) {
+            failChance = 0.20;
+        } else if (failChance > 0.80) {
+            failChance = 0.80;
+        }
+
+        // Calculate mount stolen (success probability * their cash)
+        long amountStolen = (long) ((1 - failChance) * targetCash);
+        if (amountStolen < 0) amountStolen = 0;
+
+        // Attempt robbery
+        bot.timeoutHandler.addTimeout(player.getUser_id(), TimeoutHandler.TimeoutType.ROB);
+        if (ThreadLocalRandom.current().nextDouble() > failChance) {
+            // Rob successful
+            pay(target, player, amountStolen);
+            String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(amountStolen);
+            String response = Emojis.SUCCESS + " You robbed " + value + " from <@" + target.getUser_id() + ">";
+            return new EconomyReply(response, 1, true);
+        }
+        // Rob failed (20-40% fine of net worth)
+        long fine = calculateFine(player);
+        removeMoney(player, fine);
+        String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(fine);
+        String response = "You were caught attempting to rob <@"+target.getUser_id()+">, and have been fined " + value + ".";
+        return new EconomyReply(response, 1, false);
     }
 
     /**
