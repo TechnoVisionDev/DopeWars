@@ -5,6 +5,7 @@ import dopewars.handlers.economy.EconomyHandler;
 import dopewars.handlers.PlayerHandler;
 import dopewars.data.DatabaseManager;
 import dopewars.handlers.TimeoutHandler;
+import dopewars.listeners.ButtonListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -45,7 +46,7 @@ public class DopeWars extends ListenerAdapter {
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("/help"));
         shardManager = builder.build();
-        shardManager.addEventListener(new CommandRegistry(this));
+        shardManager.addEventListener(new CommandRegistry(this), new ButtonListener());
 
         //Create Managers & Modules
         databaseManager = new DatabaseManager(config.get("DATABASE"));
