@@ -1,6 +1,5 @@
 package dopewars.listeners;
 
-
 import dopewars.DopeWars;
 import dopewars.commands.casino.BlackjackCommand;
 import dopewars.commands.casino.CrashCommand;

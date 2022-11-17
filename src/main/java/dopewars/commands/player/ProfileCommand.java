@@ -41,14 +41,15 @@ public class ProfileCommand extends Command {
         }
 
         // Display in message embed
-        String progress = "**Level:** "+ NUM_FORMAT.format(player.getLevel()) +
-                "\n**Rank**: 1"+
-                "\n**Prestige**: "+ NUM_FORMAT.format(player.getPrestige());
+        String progress = ":chart_with_upwards_trend: **Level:** "+ NUM_FORMAT.format(player.getLevel()) +
+                "\n:medal: **Prestige**: "+ NUM_FORMAT.format(player.getPrestige()) +
+                "\n:earth_africa: **City**: Los Angeles";
 
-        String stats = ":gun: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
+        String stats = ":dagger: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
                 "\n:shield: **DEF**: "+ NUM_FORMAT.format(player.getDefense()) +
                 "\n:heart: **LIFE**: "+ NUM_FORMAT.format(player.getHealth()) +
-                "/" + NUM_FORMAT.format(player.getMaxHealth());
+                "/" + NUM_FORMAT.format(player.getMaxHealth()) +
+                "\n:jar: **INV**: "+ NUM_FORMAT.format(player.getStorage());
 
         String equipment = ":x: No weapon" +
                 "\n:x: No armor" +

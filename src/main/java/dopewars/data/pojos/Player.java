@@ -12,6 +12,7 @@ public class Player {
     private int defense;
     private int maxHealth;
     private int health;
+    private int storage;
     private int level;
     private int prestige;
     private Map<String, Long> materials;
@@ -20,7 +21,7 @@ public class Player {
 
     public Player() { }
 
-    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, int level, int prestige, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
+    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, int storage, int level, int prestige, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
         this.user_id = user_id;
         this.cash = cash;
         this.bank = bank;
@@ -28,6 +29,7 @@ public class Player {
         this.defense = defense;
         this.maxHealth = maxHealth;
         this.health = health;
+        this.storage = storage;
         this.level = level;
         this.prestige = prestige;
         this.materials = materials;
@@ -43,6 +45,7 @@ public class Player {
         this.defense = 1;
         this.maxHealth = 100;
         this.health = 100;
+        this.storage = 50;
         this.level = 1;
         this.prestige = 0;
         this.materials = new HashMap<>();
@@ -104,6 +107,14 @@ public class Player {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getStorage() {
+        return storage;
+    }
+
+    public void setStorage(int storage) {
+        this.storage = storage;
     }
 
     public int getLevel() {
