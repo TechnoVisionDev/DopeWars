@@ -46,7 +46,7 @@ public class DopeWars extends ListenerAdapter {
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("/help"));
         shardManager = builder.build();
-        shardManager.addEventListener(new CommandRegistry(this), new ButtonListener());
+        shardManager.addEventListener(new CommandRegistry(this), new ButtonListener(this));
 
         //Create Managers & Modules
         databaseManager = new DatabaseManager(config.get("DATABASE"));

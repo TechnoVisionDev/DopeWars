@@ -1,6 +1,7 @@
 package dopewars.commands;
 
 import dopewars.DopeWars;
+import dopewars.commands.casino.BlackjackCommand;
 import dopewars.commands.economy.*;
 import dopewars.commands.player.InventoryCommand;
 import dopewars.commands.player.ProfileCommand;
@@ -43,12 +44,12 @@ public class CommandRegistry extends ListenerAdapter {
     public CommandRegistry(DopeWars bot) {
         this.bot = bot;
         mapCommand(
-                //Player commands
+                //Player
                 new StartCommand(bot),
                 new ProfileCommand(bot),
                 new InventoryCommand(bot),
 
-                //Economy commands
+                //Economy
                 new BalanceCommand(bot),
                 new CrimeCommand(bot),
                 new RobCommand(bot),
@@ -56,10 +57,13 @@ public class CommandRegistry extends ListenerAdapter {
                 new WithdrawCommand(bot),
                 new PayCommand(bot),
 
-                //Farming commands
+                // Casino
+                new BlackjackCommand(bot),
+
+                //Farming
                 new GrowCommand(bot),
 
-                // Utility commands
+                // Utility
                 new HelpCommand(bot)
         );
     }

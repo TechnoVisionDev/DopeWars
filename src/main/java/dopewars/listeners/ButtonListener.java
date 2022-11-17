@@ -1,6 +1,8 @@
 package dopewars.listeners;
 
 
+import dopewars.DopeWars;
+import dopewars.commands.casino.BlackjackCommand;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -32,6 +34,12 @@ public class ButtonListener extends ListenerAdapter {
     public static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(20);
     public static final Map<String, List<MessageEmbed>> menus = new HashMap<>();
     public static final Map<String, List<Button>> buttons = new HashMap<>();
+
+    private final DopeWars bot;
+
+    public ButtonListener(DopeWars bot) {
+        this.bot = bot;
+    }
 
     /**
      * Adds pagination buttons to a message action.
@@ -191,6 +199,16 @@ public class ButtonListener extends ListenerAdapter {
                     event.editComponents(ActionRow.of(components)).setEmbeds(embeds.get(page)).queue();
                 }
             }
+        }
+        else if (pressedArgs[0].equals("blackjack") && storedArgs[0].equals("blackjack")) {
+            long bet = Long.parseLong(pressedArgs[4]);
+            MessageEmbed embed = null;
+            if (pressedArgs[1].equals("hit")) {
+                embed = BlackjackCommand.hit(bot, event.getUser(), bet, uuid);
+            } else if (pressedArgs[1].equals("stand")) {
+                embed = BlackjackCommand.stand(bot, event.getUser(), bet, uuid);
+            }
+            event.editComponents(ActionRow.of(buttons.get(uuid))).setEmbeds(embed).queue();
         }
     }
 }

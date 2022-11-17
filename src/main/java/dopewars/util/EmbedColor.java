@@ -8,7 +8,8 @@ package dopewars.util;
 public enum EmbedColor {
     DEFAULT(0xFFFF00),
     ERROR(0xdd5f53),
-    SUCCESS(0x77b255);
+    SUCCESS(0x77b255),
+    WARNING(0xff8c03);
 
     public final int color;
 
