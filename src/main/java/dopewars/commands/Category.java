@@ -9,6 +9,7 @@ package dopewars.commands;
 public enum Category {
     PLAYER(":man_bowing:", "Player"),
     ECONOMY(":moneybag:", "Economy"),
+    MARKET(":scales:", "Market"),
     CASINO(":game_die:", "Casino"),
     FARMING(":farmer:", "Farming"),
     CRAFTING(":tools:", "Crafting"),

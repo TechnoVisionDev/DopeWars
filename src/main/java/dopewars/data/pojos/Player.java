@@ -15,13 +15,14 @@ public class Player {
     private int storage;
     private int level;
     private int prestige;
+    private String city;
     private Map<String, Long> materials;
     private Map<String, Long> equipment;
     private Map<String, Long> drugs;
 
     public Player() { }
 
-    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, int storage, int level, int prestige, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
+    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, int storage, int level, int prestige, String city, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
         this.user_id = user_id;
         this.cash = cash;
         this.bank = bank;
@@ -32,6 +33,7 @@ public class Player {
         this.storage = storage;
         this.level = level;
         this.prestige = prestige;
+        this.city = city;
         this.materials = materials;
         this.equipment = equipment;
         this.drugs = drugs;
@@ -48,6 +50,7 @@ public class Player {
         this.storage = 50;
         this.level = 1;
         this.prestige = 0;
+        this.city = "LOS_ANGELES";
         this.materials = new HashMap<>();
         this.equipment = new HashMap<>();
         this.drugs = new HashMap<>();
@@ -131,6 +134,14 @@ public class Player {
 
     public void setPrestige(int prestige) {
         this.prestige = prestige;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public Map<String, Long> getMaterials() {
