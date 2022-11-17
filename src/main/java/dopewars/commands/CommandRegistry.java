@@ -3,6 +3,7 @@ package dopewars.commands;
 import dopewars.DopeWars;
 import dopewars.commands.casino.BlackjackCommand;
 import dopewars.commands.casino.CoinflipCommand;
+import dopewars.commands.casino.CrashCommand;
 import dopewars.commands.casino.SlotsCommand;
 import dopewars.commands.economy.*;
 import dopewars.commands.player.InventoryCommand;
@@ -61,6 +62,7 @@ public class CommandRegistry extends ListenerAdapter {
 
                 // Casino
                 new BlackjackCommand(bot),
+                new CrashCommand(bot),
                 new SlotsCommand(bot),
                 new CoinflipCommand(bot),
 
