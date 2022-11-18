@@ -1,4 +1,4 @@
-package dopewars.util;
+package dopewars.util.enums;
 
 public enum Cities {
 

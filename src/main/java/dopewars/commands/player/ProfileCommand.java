@@ -4,7 +4,7 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.util.EmbedColor;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

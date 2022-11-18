@@ -1,4 +1,4 @@
-package dopewars.util;
+package dopewars.util.enums;
 
 /**
  * Utility enum storing color codes and helpful methods.

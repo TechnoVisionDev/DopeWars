@@ -1,34 +1,31 @@
 package dopewars.data.cache;
 
-import dopewars.items.Drugs;
-import dopewars.items.Materials;
+import dopewars.data.items.Drug;
+import dopewars.data.items.Material;
+import dopewars.handlers.ItemHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class Market {
 
     private String city;
-    private Map<String, Long> drugs;
-    private Map<String, Long> materials;
+    private LinkedHashMap<String, Long> prices;
 
     public Market() { }
 
-    public Market(String city, Map<String, Long> drugs, Map<String, Long> materials) {
+    public Market(String city, LinkedHashMap<String, Long> prices) {
         this.city = city;
-        this.drugs = drugs;
-        this.materials = materials;
+        this.prices = prices;
     }
 
-    public Market(String city) {
+    public Market(String city, ItemHandler itemHandler) {
         this.city = city;
-        this.drugs = new HashMap<>();
-        this.materials = new HashMap<>();
-        for (Drugs drug : Drugs.values()) {
-            drugs.put(drug.toString(), drug.price);
+        this.prices = new LinkedHashMap<>();
+        for (Drug drug : itemHandler.getDrugs()) {
+            prices.put(drug.getName(), drug.getPrice());
         }
-        for (Materials item : Materials.values()) {
-            materials.put(item.toString(), item.price);
+        for (Material mat : itemHandler.getMaterials()) {
+            prices.put(mat.getName(), mat.getPrice());
         }
     }
 
@@ -40,19 +37,11 @@ public class Market {
         this.city = city;
     }
 
-    public Map<String, Long> getDrugs() {
-        return drugs;
+    public LinkedHashMap<String, Long> getPrices() {
+        return prices;
     }
 
-    public void setDrugs(Map<String, Long> drugs) {
-        this.drugs = drugs;
-    }
-
-    public Map<String, Long> getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(Map<String, Long> materials) {
-        this.materials = materials;
+    public void setPrices(LinkedHashMap<String, Long> prices) {
+        this.prices = prices;
     }
 }

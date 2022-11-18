@@ -4,11 +4,11 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.items.Drugs;
-import dopewars.items.Materials;
+import dopewars.data.items.Item;
+import dopewars.handlers.MarketHandler;
 import dopewars.listeners.ButtonListener;
-import dopewars.util.Cities;
-import dopewars.util.EmbedColor;
+import dopewars.util.enums.Cities;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -17,10 +17,10 @@ import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dopewars.util.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.CURRENCY;
 
 /**
- * Command that displays the server shop and available items.
+ * Command that displays the shop and available items.
  *
  * @author TechnoVision
  */
@@ -29,7 +29,7 @@ public class ShopCommand extends Command {
     public ShopCommand(DopeWars bot) {
         super(bot);
         this.name = "shop";
-        this.description = "View items available to buy and sell for this server.";
+        this.description = "View items available to buy and sell.";
         this.category = Category.MARKET;
     }
 
@@ -42,27 +42,24 @@ public class ShopCommand extends Command {
         EmbedBuilder template = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
                 .setTitle(city.flag + " " + city.name  + " Market")
-                .setDescription("Buy an item with the `/buy <item> [quantity]` command.\n"+"For more information on an item use the `/inspect <item>` command.");
+                .setDescription("Each city has a unique selection of items that rotate everyday.\nPrices dynamically change as players `/buy` and `/sell`.");
 
-        EmbedBuilder drugPage = new EmbedBuilder();
-        drugPage.copyFrom(template);
-        for (String key : bot.marketHandler.getCurrentDrugs(cityKey).keySet()) {
-            Drugs drug = Drugs.valueOf(key);
-            String field = String.format("%s __%s__ | %d %s", drug.emoji, drug.name, drug.price, CURRENCY);
-            drugPage.addField(field, "A drug that you can consume.", false);
+        // Build shop pages
+        EmbedBuilder page = new EmbedBuilder();
+        page.copyFrom(template);
+        int index = 0;
+        for (MarketHandler.Listing listing : bot.marketHandler.getListings(cityKey).values()) {
+            Item item = listing.item();
+            String field = String.format("%s __%s__ | %d %s", item.getEmoji(), item.getName(), item.getPrice(), CURRENCY);
+            page.addField(field, "A drug that you can consume.", false);
+            index++;
+            if (index % 6 == 0) {
+                embeds.add(page.build());
+                page.copyFrom(template);
+            }
         }
-        embeds.add(drugPage.build());
 
-        EmbedBuilder materialsPage = new EmbedBuilder();;
-        materialsPage.copyFrom(template);
-        for (String key : bot.marketHandler.getCurrentMaterials(cityKey).keySet()) {
-            Materials item = Materials.valueOf(key);
-            String field = String.format("%s __%s__ | %d %s", item.emoji, item.name, item.price, CURRENCY);
-            materialsPage.addField(field, "A material used for crafting.", false);
-        }
-        embeds.add(materialsPage.build());
-
-        // Send embed
+        // Send shop embed as paginated menu
         ReplyCallbackAction action = event.replyEmbeds(embeds.get(0));
         if (embeds.size() > 1) {
             ButtonListener.sendPaginatedMenu(event.getUser().getId(), action, embeds);

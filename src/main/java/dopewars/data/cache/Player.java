@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Player {
 
-    private long user_id;
+    private long id;
     private long cash;
     private long bank;
     private int attack;
@@ -16,14 +16,12 @@ public class Player {
     private int level;
     private int prestige;
     private String city;
-    private Map<String, Long> materials;
-    private Map<String, Long> equipment;
-    private Map<String, Long> drugs;
+    private Map<String, Long> inventory;
 
     public Player() { }
 
-    public Player(long user_id, long cash, long bank, int attack, int defense, int maxHealth, int health, int storage, int level, int prestige, String city, Map<String, Long> materials, Map<String, Long> equipment, Map<String, Long> drugs) {
-        this.user_id = user_id;
+    public Player(long id, long cash, long bank, int attack, int defense, int maxHealth, int health, int storage, int level, int prestige, String city, Map<String, Long> inventory) {
+        this.id = id;
         this.cash = cash;
         this.bank = bank;
         this.attack = attack;
@@ -34,13 +32,11 @@ public class Player {
         this.level = level;
         this.prestige = prestige;
         this.city = city;
-        this.materials = materials;
-        this.equipment = equipment;
-        this.drugs = drugs;
+        this.inventory = inventory;
     }
 
-    public Player(long user_id) {
-        this.user_id = user_id;
+    public Player(long id) {
+        this.id = id;
         this.cash = 0;
         this.bank = 0;
         this.attack = 1;
@@ -51,17 +47,15 @@ public class Player {
         this.level = 1;
         this.prestige = 0;
         this.city = "LOS_ANGELES";
-        this.materials = new HashMap<>();
-        this.equipment = new HashMap<>();
-        this.drugs = new HashMap<>();
+        this.inventory = new HashMap<>();
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getId() {
+        return id;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getCash() {
@@ -144,27 +138,11 @@ public class Player {
         this.city = city;
     }
 
-    public Map<String, Long> getMaterials() {
-        return materials;
+    public Map<String, Long> getInventory() {
+        return inventory;
     }
 
-    public void setMaterials(Map<String, Long> materials) {
-        this.materials = materials;
-    }
-
-    public Map<String, Long> getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Map<String, Long> equipment) {
-        this.equipment = equipment;
-    }
-
-    public Map<String, Long> getDrugs() {
-        return drugs;
-    }
-
-    public void setDrugs(Map<String, Long> drugs) {
-        this.drugs = drugs;
+    public void setInventory(Map<String, Long> inventory) {
+        this.inventory = inventory;
     }
 }

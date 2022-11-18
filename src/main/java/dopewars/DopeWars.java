@@ -1,6 +1,7 @@
 package dopewars;
 
 import dopewars.commands.CommandRegistry;
+import dopewars.handlers.ItemHandler;
 import dopewars.handlers.MarketHandler;
 import dopewars.handlers.economy.EconomyHandler;
 import dopewars.handlers.PlayerHandler;
@@ -32,6 +33,7 @@ public class DopeWars extends ListenerAdapter {
     public final @NotNull ShardManager shardManager;
     public final @NotNull DatabaseManager databaseManager;
     public final @NotNull PlayerHandler playerHandler;
+    public final @NotNull ItemHandler itemHandler;
     public final @NotNull TimeoutHandler timeoutHandler;
     public final @NotNull EconomyHandler economyHandler;
     public final @NotNull MarketHandler marketHandler;
@@ -42,20 +44,21 @@ public class DopeWars extends ListenerAdapter {
      * @throws LoginException throws if bot token is invalid.
      */
     public DopeWars() throws LoginException {
-        //Build JDA shards
+        //Create Managers & Modules
         config = Dotenv.load();
+        databaseManager = new DatabaseManager(config.get("DATABASE"));
+        playerHandler = new PlayerHandler(this);
+        itemHandler = new ItemHandler(this);
+        timeoutHandler = new TimeoutHandler();
+        economyHandler = new EconomyHandler(this);
+        marketHandler = new MarketHandler(this);
+
+        //Build JDA shards
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("/help"));
         shardManager = builder.build();
         shardManager.addEventListener(new CommandRegistry(this), new ButtonListener(this));
-
-        //Create Managers & Modules
-        databaseManager = new DatabaseManager(config.get("DATABASE"));
-        playerHandler = new PlayerHandler(databaseManager);
-        timeoutHandler = new TimeoutHandler();
-        economyHandler = new EconomyHandler(this);
-        marketHandler = new MarketHandler(this);
     }
 
     /**

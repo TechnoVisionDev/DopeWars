@@ -1,4 +1,4 @@
-package dopewars.util;
+package dopewars.util.enums;
 
 /**
  * Represents blackjack playing cards with a value and emoji.

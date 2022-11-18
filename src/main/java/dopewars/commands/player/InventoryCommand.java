@@ -4,10 +4,10 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.items.Drugs;
-import dopewars.items.Equipment;
-import dopewars.util.EmbedColor;
-import dopewars.items.Materials;
+import dopewars.data.items.Drug;
+import dopewars.data.items.Equipment;
+import dopewars.data.items.Material;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -41,52 +41,47 @@ public class InventoryCommand extends Command {
             return;
         }
 
-        // Retrieve materials from cache
+        // Build inventory
         StringBuilder materials = new StringBuilder();
-        for (Map.Entry<String,Long> entry : player.getMaterials().entrySet()) {
-            try {
-                if (entry.getValue() == 0) continue;
-                Materials material = Materials.valueOf(entry.getKey().toUpperCase());
-                materials.append(material.emoji)
-                        .append(" ").append("**").append(material.name).append(":**")
-                        .append(" ").append(NUM_FORMAT.format(entry.getValue()))
-                        .append("\n");
-            } catch (IllegalArgumentException ignored) { }
-        }
-
-        // Retrieve equipment from cache
-        StringBuilder equipment = new StringBuilder();
-        for (Map.Entry<String,Long> entry : player.getEquipment().entrySet()) {
-            try {
-                if (entry.getValue() == 0) continue;
-                Equipment item = Equipment.valueOf(entry.getKey().toUpperCase());
-                equipment.append(item.emoji)
-                        .append(" ").append("**").append(item.name).append(":**")
-                        .append(" ").append(NUM_FORMAT.format(entry.getValue()))
-                        .append("\n");
-            } catch (IllegalArgumentException ignored) { }
-        }
-
-        // Retrieve drugs from cache
         StringBuilder drugs = new StringBuilder();
-        for (Map.Entry<String,Long> entry : player.getDrugs().entrySet()) {
-            try {
-                if (entry.getValue() == 0) continue;
-                Drugs drug = Drugs.valueOf(entry.getKey().toUpperCase());
-                drugs.append(drug.emoji)
-                        .append(" ").append("**").append(drug.name).append(":**")
+        StringBuilder equipments = new StringBuilder();
+
+        for (Map.Entry<String,Long> entry : player.getInventory().entrySet()) {
+            if (entry.getValue() == 0) continue;
+
+            Material material = bot.itemHandler.getMaterial(entry.getKey());
+            if (material != null) {
+                materials.append(material.getEmoji())
+                        .append(" ").append("**").append(material.getName()).append(":**")
                         .append(" ").append(NUM_FORMAT.format(entry.getValue()))
                         .append("\n");
-            } catch (IllegalArgumentException ignored) { }
+                continue;
+            }
+
+            Drug drug = bot.itemHandler.getDrug(entry.getKey());
+            if (drug != null) {
+                drugs.append(drug.getEmoji())
+                        .append(" ").append("**").append(drug.getName()).append(":**")
+                        .append(" ").append(NUM_FORMAT.format(entry.getValue()))
+                        .append("\n");
+            }
+
+            Equipment equipment = bot.itemHandler.getEquipment(entry.getKey());
+            if (equipment != null) {
+                equipments.append(equipment.getEmoji())
+                        .append(" ").append("**").append(equipment.getName()).append(":**")
+                        .append(" ").append(NUM_FORMAT.format(entry.getValue()))
+                        .append("\n");
+            }
         }
 
-        // Display in message embed
+        // Display inventory in message embed
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
                 .setAuthor(user.getName()+"'s Inventory", null, user.getEffectiveAvatarUrl())
                 .addField("Materials", materials.toString(), true)
                 .addField("Drugs", drugs.toString(), true)
-                .addField("Equipment", equipment.toString(), true);
+                .addField("Equipment", equipments.toString(), true);
         event.replyEmbeds(embed.build()).queue();
     }
 }

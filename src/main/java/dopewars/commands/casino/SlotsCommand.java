@@ -4,7 +4,7 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.util.EmbedColor;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static dopewars.util.Emojis.CURRENCY;
-import static dopewars.util.Emojis.FAIL;
+import static dopewars.util.enums.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.FAIL;
 
 /**
  * Command that plays slot machine game.

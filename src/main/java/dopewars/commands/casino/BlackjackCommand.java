@@ -5,8 +5,8 @@ import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
 import dopewars.listeners.ButtonListener;
-import dopewars.util.Cards;
-import dopewars.util.EmbedColor;
+import dopewars.util.enums.Cards;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -19,8 +19,8 @@ import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static dopewars.util.Emojis.CURRENCY;
-import static dopewars.util.Emojis.FAIL;
+import static dopewars.util.enums.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.FAIL;
 
 /**
  * Command that plays a game of blackjack.

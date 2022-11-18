@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import static dopewars.DopeWars.NUM_FORMAT;
-import static dopewars.util.Emojis.*;
+import static dopewars.util.enums.Emojis.*;
 
 /**
  * Command that transfer cash from one user to another.
@@ -67,6 +67,6 @@ public class PayCommand extends Command {
 
         // Pay target and send message
         bot.economyHandler.pay(player, target, amount);
-        event.reply(SUCCESS + " <@" + target.getUser_id() + "> has received your " + value + ".").queue();
+        event.reply(SUCCESS + " <@" + target.getId() + "> has received your " + value + ".").queue();
     }
 }

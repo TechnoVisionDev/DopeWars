@@ -3,9 +3,9 @@ package dopewars.commands.farming;
 import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
+import dopewars.data.cache.Player;
 import dopewars.handlers.TimeoutHandler;
-import dopewars.items.ItemTypes;
-import dopewars.items.Plants;
+import dopewars.data.items.Item;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -29,8 +29,8 @@ public class GrowCommand extends Command {
         this.description = "Grow plants for resources.";
         this.category = Category.FARMING;
         OptionData data = new OptionData(OptionType.STRING, "plant", "the plant you want to grow", true);
-        for (Plants plant : Plants.values()) {
-            data.addChoice(plant.name, plant.toString().toUpperCase());
+        for (Item plant : bot.itemHandler.getPlants()) {
+            data.addChoice(plant.getName(), plant.getName());
         }
         this.args.add(data);
     }
@@ -46,8 +46,8 @@ public class GrowCommand extends Command {
         }
 
         // Get selected plant type
-        String plantKey = event.getOption("plant").getAsString();
-        Plants plant = Plants.valueOf(plantKey);
+        String plantName = event.getOption("plant").getAsString();
+        Item plant = bot.itemHandler.getItem(plantName);
 
         // Generate amount randomly
         int amount;
@@ -61,17 +61,14 @@ public class GrowCommand extends Command {
         }
 
         // Add item to player's inventory and enable timeout
-        ItemTypes itemType = ItemTypes.MATERIALS;
-        if (plant == Plants.CANNABIS || plant == Plants.MUSHROOMS) {
-            itemType = ItemTypes.DRUGS;
-        }
-        bot.playerHandler.addItem(user.getIdLong(), plantKey, amount, itemType);
+        Player player = bot.playerHandler.getPlayer(user.getIdLong());
+        bot.itemHandler.addItem(player, plant.getName(), amount);
         bot.timeoutHandler.addTimeout(user.getIdLong(), timeoutType);
 
         // Reply to user with message
         String username = user.getName();
-        String name = plant.name;
-        String emoji = plant.emoji;
-        event.reply("**" + username + "** got " + amount + " " + emoji + " " + name).queue();
+        String name = plant.getName();
+        String emoji = plant.getEmoji();
+        event.reply("**" + username + "** grew " + amount + " " + emoji + " " + name).queue();
     }
 }

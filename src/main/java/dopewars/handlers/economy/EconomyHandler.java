@@ -5,7 +5,7 @@ import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
 import dopewars.data.cache.Player;
 import dopewars.handlers.TimeoutHandler;
-import dopewars.util.Emojis;
+import dopewars.util.enums.Emojis;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -45,7 +45,7 @@ public class EconomyHandler {
         player.setBank(player.getBank() + amount);
 
         // Update database
-        Document query = new Document("user_id", player.getUser_id());
+        Document query = new Document("user_id", player.getId());
         Bson update = Updates.inc("cash", -1 * amount);
         Bson update2 = Updates.inc("bank", amount);
         bot.databaseManager.players.updateOne(query, Filters.and(update, update2));
@@ -63,7 +63,7 @@ public class EconomyHandler {
         player.setCash(player.getCash() + amount);
 
         // Update database
-        Document query = new Document("user_id", player.getUser_id());
+        Document query = new Document("user_id", player.getId());
         Bson update = Updates.inc("cash", amount);
         Bson update2 = Updates.inc("bank", -1 * amount);
         bot.databaseManager.players.updateOne(query, Filters.and(update, update2));
@@ -77,7 +77,7 @@ public class EconomyHandler {
      */
     public void addMoney(Player player, long amount) {
         player.setCash(player.getCash() + amount);
-        Bson query = Filters.eq("user_id", player.getUser_id());
+        Bson query = Filters.eq("user_id", player.getId());
         Bson update = Updates.inc("cash", amount);
         bot.databaseManager.players.updateOne(query, update);
     }
@@ -89,7 +89,7 @@ public class EconomyHandler {
      */
     public void removeMoney(Player player, long amount) {
         player.setCash(player.getCash() - amount);
-        Bson query = Filters.eq("user_id", player.getUser_id());
+        Bson query = Filters.eq("user_id", player.getId());
         Bson update = Updates.inc("cash", -1 * amount);
         bot.databaseManager.players.updateOne(query, update);
     }
@@ -127,7 +127,7 @@ public class EconomyHandler {
             if (amount > 0) removeMoney(player, amount);
             reply = responses.getCrimeFailResponse(amount);
         }
-        bot.timeoutHandler.addTimeout(player.getUser_id(), TimeoutHandler.TimeoutType.CRIME);
+        bot.timeoutHandler.addTimeout(player.getId(), TimeoutHandler.TimeoutType.CRIME);
         return reply;
     }
 
@@ -154,19 +154,19 @@ public class EconomyHandler {
         if (amountStolen < 0) amountStolen = 0;
 
         // Attempt robbery
-        bot.timeoutHandler.addTimeout(player.getUser_id(), TimeoutHandler.TimeoutType.ROB);
+        bot.timeoutHandler.addTimeout(player.getId(), TimeoutHandler.TimeoutType.ROB);
         if (ThreadLocalRandom.current().nextDouble() > failChance) {
             // Rob successful
             pay(target, player, amountStolen);
             String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(amountStolen);
-            String response = Emojis.SUCCESS + " You robbed " + value + " from <@" + target.getUser_id() + ">";
+            String response = Emojis.SUCCESS + " You robbed " + value + " from <@" + target.getId() + ">";
             return new EconomyReply(response, 1, true);
         }
         // Rob failed (20-40% fine of net worth)
         long fine = calculateFine(player);
         removeMoney(player, fine);
         String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(fine);
-        String response = "You were caught attempting to rob <@"+target.getUser_id()+">, and have been fined " + value + ".";
+        String response = "You were caught attempting to rob <@"+target.getId()+">, and have been fined " + value + ".";
         return new EconomyReply(response, 1, false);
     }
 

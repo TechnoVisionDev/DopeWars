@@ -9,7 +9,7 @@ import java.io.Reader;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static dopewars.DopeWars.NUM_FORMAT;
-import static dopewars.util.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.CURRENCY;
 
 /**
  * Handles localized responses to economy commands.

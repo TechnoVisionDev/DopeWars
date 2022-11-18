@@ -4,17 +4,16 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.items.Drugs;
-import dopewars.items.ItemTypes;
-import dopewars.items.Materials;
-import dopewars.util.Cities;
+import dopewars.data.items.Item;
+import dopewars.handlers.MarketHandler;
+import dopewars.util.enums.Cities;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import static dopewars.DopeWars.NUM_FORMAT;
-import static dopewars.util.Emojis.CURRENCY;
-import static dopewars.util.Emojis.FAIL;
+import static dopewars.util.enums.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.FAIL;
 
 /**
  * Command that purchases an item from the market.
@@ -40,30 +39,19 @@ public class BuyCommand extends Command {
         long balance = player.getCash();
 
         // Get item data
-        String itemName = event.getOption("item").getAsString().toUpperCase();
+        String itemName = event.getOption("item").getAsString();
         long quantity = event.getOption("quantity") == null ? 1 : event.getOption("quantity").getAsInt();
 
-        if (bot.marketHandler.hasDrug(city, itemName)) {
+        if (bot.marketHandler.hasItem(city, itemName)) {
             // Attempt to purchase drug
-            long price = (quantity * bot.marketHandler.getDrugPrice(city, itemName));
+            MarketHandler.Listing listing = bot.marketHandler.getListing(city, itemName);
+            long price = (quantity * listing.price());
             if (balance >= price) {
                 bot.economyHandler.removeMoney(player, price);
-                bot.playerHandler.addItem(player.getUser_id(), itemName, quantity, ItemTypes.DRUGS);
-                Drugs drug = Drugs.valueOf(itemName);
+                bot.itemHandler.addItem(player, itemName, quantity);
+                Item item = listing.item();
                 String formattedPrice = NUM_FORMAT.format(price) + " " + CURRENCY;
-                event.reply("**" + username + "** purchased " + quantity + " " + drug.emoji + " " + drug.name + " for " + formattedPrice).queue();
-                return;
-            }
-        }
-        else if (bot.marketHandler.hasMaterial(city, itemName)) {
-            // Attempt to purchase material
-            long price = (quantity * bot.marketHandler.getMaterialPrice(city, itemName));
-            if (balance >= price) {
-                bot.economyHandler.removeMoney(player, price);
-                bot.playerHandler.addItem(player.getUser_id(), itemName, quantity, ItemTypes.MATERIALS);
-                Materials mat = Materials.valueOf(itemName);
-                String formattedPrice = NUM_FORMAT.format(price) + " " + CURRENCY;
-                event.reply("**" + username + "** purchased " + quantity + " " + mat.emoji + " " + mat.name + " for " + formattedPrice).queue();
+                event.reply("**" + username + "** purchased " + quantity + " " + item.getEmoji() + " " + item.getName() + " for " + formattedPrice).queue();
                 return;
             }
         } else {

@@ -4,7 +4,7 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
-import dopewars.util.EmbedColor;
+import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import static dopewars.DopeWars.NUM_FORMAT;
-import static dopewars.util.Emojis.CURRENCY;
+import static dopewars.util.enums.Emojis.CURRENCY;
 
 /**
  * Command that shows a player's balance.

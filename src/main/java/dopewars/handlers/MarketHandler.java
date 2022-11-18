@@ -3,8 +3,10 @@ package dopewars.handlers;
 import com.mongodb.client.model.Filters;
 import dopewars.DopeWars;
 import dopewars.data.cache.Market;
-import dopewars.data.cache.Player;
-import dopewars.util.Cities;
+import dopewars.data.items.Drug;
+import dopewars.data.items.Item;
+import dopewars.data.items.Material;
+import dopewars.util.enums.Cities;
 
 import java.util.*;
 
@@ -17,21 +19,19 @@ public class MarketHandler {
 
     private final DopeWars bot;
     private final Map<String, Market> markets;
-    private final Map<String, Map<String, Long>> currentDrugs;
-    private final Map<String, Map<String, Long>> currentMaterials;
+    private final Map<String, LinkedHashMap<String, Listing>> listings;
 
     public MarketHandler(DopeWars bot) {
         this.bot = bot;
         this.markets = new HashMap<>();
-        this.currentDrugs = new HashMap<>();
-        this.currentMaterials = new HashMap<>();
+        this.listings = new LinkedHashMap<>();
 
         // Setup markets
         for (Cities city : Cities.values()) {
             Market market = bot.databaseManager.markets.find(Filters.eq("city", city.toString())).first();
             if (market == null) {
                 //Create new market for this city
-                market = new Market(city.toString());
+                market = new Market(city.toString(), bot.itemHandler);
                 bot.databaseManager.markets.insertOne(market);
             }
             // Cache market
@@ -41,48 +41,36 @@ public class MarketHandler {
     }
 
     private void updateMarket(Market market) {
-        // Generate list of 6 random drugs
-        List<String> keys = new ArrayList<>(market.getDrugs().keySet());
-        Collections.shuffle(keys);
-        Map<String, Long> drugMap = new HashMap<>();
+        // TODO: Update prices based on supply & demand
+
+        // Generate new listings for market
+        LinkedHashMap<String, Listing> cityListings = new LinkedHashMap<>();
+        ArrayList<Drug> drugs = new ArrayList<>(bot.itemHandler.getDrugs());
+        Collections.shuffle(drugs);
         for (int i=0; i < 6; i++) {
-            String key = keys.get(i);
-            drugMap.put(key, market.getDrugs().get(key));
+            Drug drug = drugs.get(i);
+            cityListings.put(drug.getName(), new Listing(drug, market.getPrices().get(drug.getName())));
         }
-        currentDrugs.put(market.getCity(), drugMap);
-
-        // Generate list of 6 random materials
-        keys = new ArrayList<>(market.getMaterials().keySet());
-        Collections.shuffle(keys);
-        Map<String, Long> matMap = new HashMap<>();
+        ArrayList<Material> materials = new ArrayList<>(bot.itemHandler.getMaterials());
+        Collections.shuffle(materials);
         for (int i=0; i < 6; i++) {
-            String key = keys.get(i);
-            matMap.put(key, market.getDrugs().get(key));
+            Material material = materials.get(i);
+            cityListings.put(material.getName(), new Listing(material, market.getPrices().get(material.getName())));
         }
-        currentMaterials.put(market.getCity(), matMap);
+        listings.put(market.getCity(), cityListings);
     }
 
-    public boolean hasDrug(String city, String drugName) {
-        return bot.marketHandler.getCurrentDrugs(city).containsKey(drugName);
+    public boolean hasItem(String city, String itemName) {
+        return bot.marketHandler.getListings(city).containsKey(itemName);
     }
 
-    public boolean hasMaterial(String city, String matName) {
-        return bot.marketHandler.getCurrentMaterials(city).containsKey(matName);
+    public Map<String, Listing> getListings(String city) {
+        return listings.get(city);
     }
 
-    public Long getDrugPrice(String city, String drugName) {
-        return bot.marketHandler.getCurrentDrugs(city).get(drugName);
+    public Listing getListing(String city, String itemName) {
+        return listings.get(city).get(itemName);
     }
 
-    public Long getMaterialPrice(String city, String matName) {
-        return bot.marketHandler.getCurrentMaterials(city).get(matName);
-    }
-
-    public Map<String, Long> getCurrentDrugs(String city) {
-        return currentDrugs.get(city);
-    }
-
-    public Map<String, Long> getCurrentMaterials(String city) {
-        return currentMaterials.get(city);
-    }
+    public record Listing(Item item, Long price) { }
 }

@@ -1,4 +1,4 @@
-package dopewars.util;
+package dopewars.util.enums;
 
 /**
  * Stores emoji codes to be used in command classes.
