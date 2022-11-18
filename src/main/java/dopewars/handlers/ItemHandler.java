@@ -109,6 +109,33 @@ public class ItemHandler {
     }
 
     /**
+     * Counts the total number of items in a player's inventory.
+     *
+     * @param player the player to check.
+     * @return the number of item's in player inventory.
+     */
+    public int getInventoryCount(Player player) {
+        int sum = 0;
+        for (Long amt : player.getInventory().values()) {
+            sum += amt;
+        }
+        return sum;
+    }
+
+    /**
+     * Checks if a player has sufficient space to add a
+     * specified amount of items to their inventory.
+     *
+     * @param player the player to check.
+     * @param amount the amount of items being added.
+     * @return true if space, otherwise false.
+     */
+    public boolean hasInventorySpace(Player player, int amount) {
+        int inventoryCount = getInventoryCount(player);
+        return inventoryCount + amount <= player.getStorage();
+    }
+
+    /**
      * Retrieve an item by name.
      *
      * @param key the name of the item.

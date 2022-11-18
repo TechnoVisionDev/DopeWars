@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import static dopewars.util.enums.Emojis.FAIL;
+
 /**
  * Gives the player a random amount of a selected plant.
  * Acts as an "action" and thus has a timeout.
@@ -60,8 +62,16 @@ public class GrowCommand extends Command {
             amount = 3;
         }
 
-        // Add item to player's inventory and enable timeout
+        // Check if player has inventory space
         Player player = bot.playerHandler.getPlayer(user.getIdLong());
+        int storageRemaining = player.getStorage() - bot.itemHandler.getInventoryCount(player);
+        while (amount > storageRemaining) { amount--; }
+        if (storageRemaining <= 0) {
+            event.reply(FAIL + " You don't have enough space in your inventory to grow any plants!").setEphemeral(true).queue();
+            return;
+        }
+
+        // Add item to player's inventory and enable timeout
         bot.itemHandler.addItem(player, plant.getName(), amount);
         bot.timeoutHandler.addTimeout(user.getIdLong(), timeoutType);
 

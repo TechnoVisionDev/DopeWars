@@ -42,7 +42,7 @@ public class BuyCommand extends Command {
 
         // Get item data
         String itemName = event.getOption("item").getAsString();
-        long quantity = event.getOption("quantity") == null ? 1 : event.getOption("quantity").getAsInt();
+        int quantity = event.getOption("quantity") == null ? 1 : event.getOption("quantity").getAsInt();
 
         if (bot.marketHandler.hasItemListed(city, itemName)) {
             // Attempt to purchase drug
@@ -52,6 +52,11 @@ public class BuyCommand extends Command {
                 if (ThreadLocalRandom.current().nextDouble() <= 0.05 && bot.itemHandler.getDrug(itemName) != null) {
                     // 5% chance to be busted by police
                     event.replyEmbeds(bot.marketHandler.bustedBuying(player, username, price)).queue();
+                    return;
+                }
+                if (!bot.itemHandler.hasInventorySpace(player, quantity)) {
+                    // Player does not have sufficient space to buy this quantity
+                    event.reply(FAIL + " You don't have enough space in your inventory to buy that many items!").setEphemeral(true).queue();
                     return;
                 }
                 bot.economyHandler.removeMoney(player, price);
