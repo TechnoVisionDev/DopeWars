@@ -92,6 +92,13 @@ public class PlayerHandler {
         databaseManager.players.updateOne(query, update);
     }
 
+    /**
+     * Count the number of a specified item in a player's inventory.
+     *
+     * @param player the player whose inventory to search.
+     * @param key the item name to count.
+     * @return the number of an item in a player's inventory.
+     */
     public long countItem(Player player, String key) {
         Long count = player.getDrugs().get(key);
         if (count != null) return count;

@@ -45,6 +45,7 @@ public class InventoryCommand extends Command {
         StringBuilder materials = new StringBuilder();
         for (Map.Entry<String,Long> entry : player.getMaterials().entrySet()) {
             try {
+                if (entry.getValue() == 0) continue;
                 Materials material = Materials.valueOf(entry.getKey().toUpperCase());
                 materials.append(material.emoji)
                         .append(" ").append("**").append(material.name).append(":**")
@@ -57,6 +58,7 @@ public class InventoryCommand extends Command {
         StringBuilder equipment = new StringBuilder();
         for (Map.Entry<String,Long> entry : player.getEquipment().entrySet()) {
             try {
+                if (entry.getValue() == 0) continue;
                 Equipment item = Equipment.valueOf(entry.getKey().toUpperCase());
                 equipment.append(item.emoji)
                         .append(" ").append("**").append(item.name).append(":**")
@@ -69,6 +71,7 @@ public class InventoryCommand extends Command {
         StringBuilder drugs = new StringBuilder();
         for (Map.Entry<String,Long> entry : player.getDrugs().entrySet()) {
             try {
+                if (entry.getValue() == 0) continue;
                 Drugs drug = Drugs.valueOf(entry.getKey().toUpperCase());
                 drugs.append(drug.emoji)
                         .append(" ").append("**").append(drug.name).append(":**")
