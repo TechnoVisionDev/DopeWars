@@ -70,4 +70,33 @@ public class PlayerHandler {
         Document update = new Document("$inc", new Document(type.toString().toLowerCase()+"."+key, amount));
         databaseManager.players.updateOne(query, update);
     }
+
+    /**
+     * Remove a specified amount of items from the user cache and database.
+     *
+     * @param user_id the discord user ID for this player.
+     * @param key the unique key of the item to remove.
+     * @param amount the amount of the item to remove.
+     */
+    public void removeItem(long user_id, String key, long amount, ItemTypes type) {
+        // Add to player cache
+        switch(type) {
+            case MATERIALS -> players.get(user_id).getMaterials().merge(key, -1*amount, Long::sum);
+            case EQUIPMENT -> players.get(user_id).getEquipment().merge(key, -1*amount, Long::sum);
+            case DRUGS -> players.get(user_id).getDrugs().merge(key, -1*amount, Long::sum);
+        }
+
+        // Add to database
+        Document query = new Document("user_id", user_id);
+        Document update = new Document("$inc", new Document(type.toString().toLowerCase()+"."+key, -1*amount));
+        databaseManager.players.updateOne(query, update);
+    }
+
+    public long countItem(Player player, String key) {
+        Long count = player.getDrugs().get(key);
+        if (count != null) return count;
+        count = player.getMaterials().get(key);
+        if (count != null) return count;
+        return 0;
+    }
 }

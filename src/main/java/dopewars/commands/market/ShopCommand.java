@@ -30,7 +30,7 @@ public class ShopCommand extends Command {
         super(bot);
         this.name = "shop";
         this.description = "View items available to buy and sell for this server.";
-        this.category = Category.ECONOMY;
+        this.category = Category.MARKET;
     }
 
     public void execute(SlashCommandInteractionEvent event) {

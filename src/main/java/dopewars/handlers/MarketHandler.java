@@ -3,6 +3,7 @@ package dopewars.handlers;
 import com.mongodb.client.model.Filters;
 import dopewars.DopeWars;
 import dopewars.data.cache.Market;
+import dopewars.data.cache.Player;
 import dopewars.util.Cities;
 
 import java.util.*;
@@ -59,6 +60,22 @@ public class MarketHandler {
             matMap.put(key, market.getDrugs().get(key));
         }
         currentMaterials.put(market.getCity(), matMap);
+    }
+
+    public boolean hasDrug(String city, String drugName) {
+        return bot.marketHandler.getCurrentDrugs(city).containsKey(drugName);
+    }
+
+    public boolean hasMaterial(String city, String matName) {
+        return bot.marketHandler.getCurrentMaterials(city).containsKey(matName);
+    }
+
+    public Long getDrugPrice(String city, String drugName) {
+        return bot.marketHandler.getCurrentDrugs(city).get(drugName);
+    }
+
+    public Long getMaterialPrice(String city, String matName) {
+        return bot.marketHandler.getCurrentMaterials(city).get(matName);
     }
 
     public Map<String, Long> getCurrentDrugs(String city) {
