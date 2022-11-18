@@ -50,7 +50,7 @@ public class SellCommand extends Command {
             long price = (quantity * listing.price());
             if (itemCount >= quantity) {
                 Item item = listing.item();
-                if (ThreadLocalRandom.current().nextDouble() <= 0.05) {
+                if (ThreadLocalRandom.current().nextDouble() <= 0.05 && bot.itemHandler.getDrug(itemName) != null) {
                     // 5% chance to be busted by police
                     event.replyEmbeds(bot.marketHandler.bustedSelling(player, username, item, quantity)).queue();
                     return;

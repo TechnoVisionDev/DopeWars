@@ -49,7 +49,7 @@ public class BuyCommand extends Command {
             MarketHandler.Listing listing = bot.marketHandler.getListing(city, itemName);
             long price = (quantity * listing.price());
             if (balance >= price) {
-                if (ThreadLocalRandom.current().nextDouble() <= 0.05) {
+                if (ThreadLocalRandom.current().nextDouble() <= 0.05 && bot.itemHandler.getDrug(itemName) != null) {
                     // 5% chance to be busted by police
                     event.replyEmbeds(bot.marketHandler.bustedBuying(player, username, price)).queue();
                     return;
