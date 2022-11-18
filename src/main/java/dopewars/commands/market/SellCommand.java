@@ -29,7 +29,11 @@ public class SellCommand extends Command {
         this.name = "sell";
         this.description = "Sell an item from your inventory.";
         this.category = Category.MARKET;
-        this.args.add(new OptionData(OptionType.STRING, "item", "The name of the item to sell", true));
+        OptionData itemOption = new OptionData(OptionType.STRING, "item", "The name of the item to sell", true);
+        for (Item item : bot.itemHandler.getItems()) {
+            itemOption.addChoice(item.getName(), item.getName());
+        }
+        this.args.add(itemOption);
         this.args.add(new OptionData(OptionType.INTEGER, "quantity", "The amount to sell").setMinValue(1).setMaxValue(Integer.MAX_VALUE));
     }
 

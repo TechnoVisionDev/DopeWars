@@ -79,8 +79,8 @@ public class InventoryCommand extends Command {
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
                 .setAuthor(user.getName()+"'s Inventory", null, user.getEffectiveAvatarUrl())
-                .addField("Materials", materials.toString(), true)
                 .addField("Drugs", drugs.toString(), true)
+                .addField("Materials", materials.toString(), true)
                 .addField("Equipment", equipments.toString(), true)
                 .setFooter(bot.itemHandler.getInventoryCount(player)+"/"+player.getStorage()+" Items");
         event.replyEmbeds(embed.build()).queue();

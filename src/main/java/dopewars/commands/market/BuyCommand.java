@@ -29,7 +29,11 @@ public class BuyCommand extends Command {
         this.name = "buy";
         this.description = "Purchase an item from the shop.";
         this.category = Category.MARKET;
-        this.args.add(new OptionData(OptionType.STRING, "item", "The name of the item to purchase", true));
+        OptionData itemOption = new OptionData(OptionType.STRING, "item", "The name of the item to purchase", true);
+        for (Item item : bot.itemHandler.getItems()) {
+            itemOption.addChoice(item.getName(), item.getName());
+        }
+        this.args.add(itemOption);
         this.args.add(new OptionData(OptionType.INTEGER, "quantity", "The amount to purchase").setMinValue(1).setMaxValue(Integer.MAX_VALUE));
     }
 
