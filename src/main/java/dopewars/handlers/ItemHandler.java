@@ -41,6 +41,7 @@ public class ItemHandler {
 
         // Create drug items
         drugs.put("cannabis", new Drug("cannabis", ":four_leaf_clover:", 30, "A drug that can be consumed for a stat buff", true));
+        drugs.put("moonshine", new Drug("moonshine", ":wine_glass:", 20, "A drug that can be consumed for a stat buff"));
         drugs.put("mushrooms", new Drug("mushrooms", ":mushroom:", 85, "A drug that can be consumed for a stat buff", true));
         drugs.put("peyote", new Drug("peyote", ":cactus:", 90, "A drug that can be consumed for a stat buff", true));
         drugs.put("acid", new Drug("acid", ":sparkler:", 100, "A drug that can be consumed for a stat buff"));
@@ -54,6 +55,7 @@ public class ItemHandler {
         drugs.put("ketamine", new Drug("ketamine", ":unicorn:", 200, "A drug that can be consumed for a stat buff"));
 
         // Create material items
+        materials.put("grapes", new Material("grapes", ":grapes:", 8, true));
         materials.put("ergot", new Material("ergot", ":ear_of_rice:", 15, true));
         materials.put("opium", new Material("opium", ":blossom:", 12, true));
         materials.put("sassafras", new Material("sassafras", ":herb:", 28, true));
