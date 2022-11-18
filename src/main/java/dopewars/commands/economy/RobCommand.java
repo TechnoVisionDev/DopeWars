@@ -60,7 +60,7 @@ public class RobCommand extends Command {
         if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
             // On timeout
             String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
-            event.reply(":stopwatch: You already robbed someone, wait at least **" + cooldown + "**...").setEphemeral(true).queue();
+            event.reply(":stopwatch: You already robbed someone, try again in **" + cooldown + "**.").setEphemeral(true).queue();
         } else {
             // Start robbery
             EconomyReply reply = bot.economyHandler.rob(player, target);

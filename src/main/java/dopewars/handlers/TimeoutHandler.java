@@ -1,5 +1,7 @@
 package dopewars.handlers;
 
+import net.dv8tion.jda.api.utils.TimeFormat;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -64,12 +66,7 @@ public class TimeoutHandler {
         Map<TimeoutType, Long> userTimeouts = timeouts.get(user_id);
         if (userTimeouts != null) {
             Long timestamp = userTimeouts.get(timeout);
-            if (timestamp != null) {
-                long cooldown = timestamp - System.currentTimeMillis();
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(cooldown);
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(cooldown) - TimeUnit.MINUTES.toSeconds(minutes);
-                return minutes + "m " + seconds + "s";
-            }
+            return TimeFormat.RELATIVE.format(timestamp);
         }
         return "0m 0s";
     }

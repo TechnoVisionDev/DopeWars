@@ -41,7 +41,7 @@ public class GrowCommand extends Command {
         if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
             // Display remaining timeout
             String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
-            event.reply(":stopwatch: You already grew some plants, wait at least **"+cooldown+"**...").setEphemeral(true).queue();
+            event.reply(":stopwatch: You already grew some plants, try again in **"+cooldown+"**.").setEphemeral(true).queue();
             return;
         }
 
