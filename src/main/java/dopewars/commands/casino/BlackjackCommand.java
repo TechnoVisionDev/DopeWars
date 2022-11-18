@@ -3,7 +3,7 @@ package dopewars.commands.casino;
 import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Player;
 import dopewars.listeners.ButtonListener;
 import dopewars.util.Cards;
 import dopewars.util.EmbedColor;

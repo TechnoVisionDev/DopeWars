@@ -3,7 +3,7 @@ package dopewars.handlers.economy;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Player;
 import dopewars.handlers.TimeoutHandler;
 import dopewars.util.Emojis;
 import org.bson.Document;

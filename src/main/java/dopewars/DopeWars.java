@@ -1,6 +1,7 @@
 package dopewars;
 
 import dopewars.commands.CommandRegistry;
+import dopewars.handlers.MarketHandler;
 import dopewars.handlers.economy.EconomyHandler;
 import dopewars.handlers.PlayerHandler;
 import dopewars.data.DatabaseManager;
@@ -33,6 +34,7 @@ public class DopeWars extends ListenerAdapter {
     public final @NotNull PlayerHandler playerHandler;
     public final @NotNull TimeoutHandler timeoutHandler;
     public final @NotNull EconomyHandler economyHandler;
+    public final @NotNull MarketHandler marketHandler;
 
     /**
      * Builds bot shards and registers commands and modules.
@@ -53,6 +55,7 @@ public class DopeWars extends ListenerAdapter {
         playerHandler = new PlayerHandler(databaseManager);
         timeoutHandler = new TimeoutHandler();
         economyHandler = new EconomyHandler(this);
+        marketHandler = new MarketHandler(this);
     }
 
     /**

@@ -3,7 +3,7 @@ package dopewars.commands.economy;
 import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Player;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -13,7 +13,6 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import static dopewars.DopeWars.NUM_FORMAT;
 import static dopewars.util.Emojis.CURRENCY;
 import static dopewars.util.Emojis.FAIL;
-import static dopewars.util.Emojis.SUCCESS;
 
 /**
  * Command that deposits cash into the bank.

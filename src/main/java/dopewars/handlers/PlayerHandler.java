@@ -1,7 +1,7 @@
 package dopewars.handlers;
 
 import dopewars.data.DatabaseManager;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Player;
 import dopewars.items.ItemTypes;
 import org.bson.Document;
 

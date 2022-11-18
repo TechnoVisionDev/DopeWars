@@ -1,4 +1,4 @@
-package dopewars.data.pojos;
+package dopewars.data.cache;
 
 import java.util.HashMap;
 import java.util.Map;

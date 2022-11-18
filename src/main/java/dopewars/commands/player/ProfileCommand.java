@@ -3,7 +3,7 @@ package dopewars.commands.player;
 import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Player;
 import dopewars.util.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;

@@ -1,7 +1,8 @@
 package dopewars.data;
 
 import com.mongodb.client.model.Indexes;
-import dopewars.data.pojos.Player;
+import dopewars.data.cache.Market;
+import dopewars.data.cache.Player;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -24,6 +25,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 public class DatabaseManager {
 
     public @NotNull MongoCollection<Player> players;
+    public @NotNull MongoCollection<Market> markets;
 
     /**
      * Connect to database using MongoDB URI and
@@ -44,6 +46,7 @@ public class DatabaseManager {
 
         // Initialize collections if they don't exist.
         players = database.getCollection("players", Player.class);
+        markets = database.getCollection("markets", Market.class);
 
         // Add index to collection
         Bson userIndex = Indexes.descending("user_id");
