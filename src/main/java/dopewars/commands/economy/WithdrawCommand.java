@@ -33,7 +33,7 @@ public class WithdrawCommand extends Command {
         User user = event.getUser();
         Player player = bot.playerHandler.getPlayer(user.getIdLong());
 
-        // Check if banl balance is 0
+        // Check if bank balance is 0
         long bank = player.getBank();
         if (bank <= 0) {
             event.reply(FAIL + " You don't have any cash to withdraw!").setEphemeral(true).queue();
@@ -47,7 +47,7 @@ public class WithdrawCommand extends Command {
             amount = amountOption.getAsLong();
             if (amountOption.getAsLong() > bank) {
                 // Amount is higher than bank balance
-                String value = CURRENCY + " " + NUM_FORMAT.format(amount);
+                String value = NUM_FORMAT.format(bank) + " " + CURRENCY;
                 event.reply(FAIL + " You cannot withdraw more than " + value + "!").setEphemeral(true).queue();
                 return;
             }
@@ -57,7 +57,7 @@ public class WithdrawCommand extends Command {
 
         // Deposit and send response message
         bot.economyHandler.withdraw(player, amount);
-        String value = CURRENCY + " " + NUM_FORMAT.format(amount);
+        String value = NUM_FORMAT.format(amount) + " " + CURRENCY;
         event.reply("**" + user.getName() + "** withdrew " + value + " from their bank!").queue();
     }
 }

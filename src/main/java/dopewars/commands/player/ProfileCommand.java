@@ -4,6 +4,7 @@ import dopewars.DopeWars;
 import dopewars.commands.Category;
 import dopewars.commands.Command;
 import dopewars.data.cache.Player;
+import dopewars.util.enums.Cities;
 import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -41,15 +42,17 @@ public class ProfileCommand extends Command {
         }
 
         // Display in message embed
+        Cities city = Cities.valueOf(player.getCity());
         String progress = ":chart_with_upwards_trend: **Level:** "+ NUM_FORMAT.format(player.getLevel()) +
                 "\n:medal: **Prestige**: "+ NUM_FORMAT.format(player.getPrestige()) +
-                "\n:earth_africa: **City**: Los Angeles";
+                "\n"+ city.flag +" **City**: "+ city.name;
 
         String stats = ":dagger: **AT**: "+ NUM_FORMAT.format(player.getAttack()) +
                 "\n:shield: **DEF**: "+ NUM_FORMAT.format(player.getDefense()) +
                 "\n:heart: **LIFE**: "+ NUM_FORMAT.format(player.getHealth()) +
                 "/" + NUM_FORMAT.format(player.getMaxHealth()) +
-                "\n:jar: **INV**: "+ NUM_FORMAT.format(player.getStorage());
+                "\n:jar: **INV**: "+ NUM_FORMAT.format(bot.itemHandler.getInventoryCount(player)) +
+                "/" + NUM_FORMAT.format(player.getStorage());
 
         String equipment = ":x: No weapon" +
                 "\n:x: No armor" +

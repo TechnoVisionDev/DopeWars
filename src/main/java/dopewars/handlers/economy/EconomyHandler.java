@@ -45,7 +45,7 @@ public class EconomyHandler {
         player.setBank(player.getBank() + amount);
 
         // Update database
-        Document query = new Document("user_id", player.getId());
+        Document query = new Document("_id", player.getId());
         Bson update = Updates.inc("cash", -1 * amount);
         Bson update2 = Updates.inc("bank", amount);
         bot.databaseManager.players.updateOne(query, Filters.and(update, update2));
@@ -63,7 +63,7 @@ public class EconomyHandler {
         player.setCash(player.getCash() + amount);
 
         // Update database
-        Document query = new Document("user_id", player.getId());
+        Document query = new Document("_id", player.getId());
         Bson update = Updates.inc("cash", amount);
         Bson update2 = Updates.inc("bank", -1 * amount);
         bot.databaseManager.players.updateOne(query, Filters.and(update, update2));
@@ -77,7 +77,7 @@ public class EconomyHandler {
      */
     public void addMoney(Player player, long amount) {
         player.setCash(player.getCash() + amount);
-        Bson query = Filters.eq("user_id", player.getId());
+        Bson query = Filters.eq("_id", player.getId());
         Bson update = Updates.inc("cash", amount);
         bot.databaseManager.players.updateOne(query, update);
     }
@@ -89,7 +89,7 @@ public class EconomyHandler {
      */
     public void removeMoney(Player player, long amount) {
         player.setCash(player.getCash() - amount);
-        Bson query = Filters.eq("user_id", player.getId());
+        Bson query = Filters.eq("_id", player.getId());
         Bson update = Updates.inc("cash", -1 * amount);
         bot.databaseManager.players.updateOne(query, update);
     }
@@ -158,14 +158,14 @@ public class EconomyHandler {
         if (ThreadLocalRandom.current().nextDouble() > failChance) {
             // Rob successful
             pay(target, player, amountStolen);
-            String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(amountStolen);
+            String value = NUM_FORMAT.format(amountStolen) + " " + Emojis.CURRENCY;
             String response = Emojis.SUCCESS + " You robbed " + value + " from <@" + target.getId() + ">";
             return new EconomyReply(response, 1, true);
         }
         // Rob failed (20-40% fine of net worth)
         long fine = calculateFine(player);
         removeMoney(player, fine);
-        String value = Emojis.CURRENCY + " " + NUM_FORMAT.format(fine);
+        String value = NUM_FORMAT.format(fine) + " " + Emojis.CURRENCY;
         String response = "You were caught attempting to rob <@"+target.getId()+">, and have been fined " + value + ".";
         return new EconomyReply(response, 1, false);
     }

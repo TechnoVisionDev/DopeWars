@@ -9,6 +9,7 @@ import dopewars.commands.economy.*;
 import dopewars.commands.market.BuyCommand;
 import dopewars.commands.market.SellCommand;
 import dopewars.commands.market.ShopCommand;
+import dopewars.commands.player.FlyCommand;
 import dopewars.commands.player.InventoryCommand;
 import dopewars.commands.player.ProfileCommand;
 import dopewars.commands.player.StartCommand;
@@ -54,6 +55,7 @@ public class CommandRegistry extends ListenerAdapter {
                 new StartCommand(bot),
                 new ProfileCommand(bot),
                 new InventoryCommand(bot),
+                new FlyCommand(bot),
 
                 //Economy
                 new BalanceCommand(bot),

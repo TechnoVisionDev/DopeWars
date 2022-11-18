@@ -1,8 +1,12 @@
 package dopewars.handlers;
 
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
 import dopewars.data.DatabaseManager;
 import dopewars.data.cache.Player;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.*;
 
@@ -45,5 +49,18 @@ public class PlayerHandler {
      */
     public Player getPlayer(long id) {
         return players.get(id);
+    }
+
+    /**
+     * Changes the city that a player is in.
+     *
+     * @param player the player changing locations.
+     * @param city the city the player is moving to.
+     */
+    public void fly(Player player, String city) {
+        player.setCity(city);
+        Bson filter = Filters.eq("_id", player.getId());
+        Bson update = Updates.set("city", city);
+        bot.databaseManager.players.updateOne(filter, update);
     }
 }

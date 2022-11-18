@@ -82,7 +82,7 @@ public class InventoryCommand extends Command {
                 .addField("Drugs", drugs.toString(), true)
                 .addField("Materials", materials.toString(), true)
                 .addField("Equipment", equipments.toString(), true)
-                .setFooter(bot.itemHandler.getInventoryCount(player)+"/"+player.getStorage()+" Items");
+                .setFooter(NUM_FORMAT.format(bot.itemHandler.getInventoryCount(player))+"/"+NUM_FORMAT.format(player.getStorage())+" Items");
         event.replyEmbeds(embed.build()).queue();
     }
 }

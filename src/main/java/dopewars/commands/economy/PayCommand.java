@@ -59,13 +59,14 @@ public class PayCommand extends Command {
         // Check that user has necessary funds
         long amount = event.getOption("amount").getAsLong();
         long cash = player.getCash();
-        String value = CURRENCY + " " + NUM_FORMAT.format(cash);
+        String value = NUM_FORMAT.format(cash) + " " + CURRENCY;
         if (amount > cash) {
             String msg = "You don't have that much money to give. You currently have " + value + " on hand.";
             event.reply(msg).setEphemeral(true).queue();
         }
 
         // Pay target and send message
+        value = NUM_FORMAT.format(amount) + " " + CURRENCY;
         bot.economyHandler.pay(player, target, amount);
         event.reply(SUCCESS + " <@" + target.getId() + "> has received your " + value + ".").queue();
     }

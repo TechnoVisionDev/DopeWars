@@ -1,12 +1,14 @@
 package dopewars.handlers;
 
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
 import dopewars.data.cache.Player;
 import dopewars.data.items.Drug;
 import dopewars.data.items.Equipment;
 import dopewars.data.items.Item;
 import dopewars.data.items.Material;
-import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,8 +82,8 @@ public class ItemHandler {
         player.getInventory().merge(itemName, amount, Long::sum);
 
         // Add to database
-        Document query = new Document("_id", player.getId());
-        Document update = new Document("$inc", new Document("inventory."+itemName, amount));
+        Bson query = Filters.eq("_id", player.getId());
+        Bson update = Updates.inc("inventory."+itemName, amount);
         bot.databaseManager.players.updateOne(query, update);
     }
 

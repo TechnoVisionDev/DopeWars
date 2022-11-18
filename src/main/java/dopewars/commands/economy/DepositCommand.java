@@ -47,7 +47,7 @@ public class DepositCommand extends Command {
             amount = amountOption.getAsLong();
             if (amountOption.getAsLong() > cash) {
                 // Amount is higher than balance
-                String value = CURRENCY + " " + NUM_FORMAT.format(amount);
+                String value = NUM_FORMAT.format(cash) + " " + CURRENCY;
                 event.reply(FAIL + " You cannot deposit more than " + value + "!").setEphemeral(true).queue();
                 return;
             }
@@ -57,7 +57,7 @@ public class DepositCommand extends Command {
 
         // Deposit and send response message
         bot.economyHandler.deposit(player, amount);
-        String value = CURRENCY + " " + NUM_FORMAT.format(amount);
+        String value = NUM_FORMAT.format(amount) + " " + CURRENCY;
         event.reply("**" + user.getName() + "** deposited " + value + " to their bank!").queue();
     }
 }
