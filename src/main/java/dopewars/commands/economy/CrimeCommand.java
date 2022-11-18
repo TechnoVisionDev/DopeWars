@@ -34,7 +34,7 @@ public class CrimeCommand extends Command {
         if (bot.timeoutHandler.isOnTimeout(user.getIdLong(), timeoutType)) {
             // On timeout
             String cooldown = bot.timeoutHandler.getTimeout(user.getIdLong(), timeoutType);
-            event.reply(":stopwatch: You already committed a crime, try again in **" + cooldown + "**.").setEphemeral(true).queue();
+            event.reply(":stopwatch: You already committed a crime, try again **" + cooldown + "**.").setEphemeral(true).queue();
         } else {
             // Commit crime
             EconomyReply reply = bot.economyHandler.crime(player);
