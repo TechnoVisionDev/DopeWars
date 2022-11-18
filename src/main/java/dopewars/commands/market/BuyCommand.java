@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static dopewars.DopeWars.NUM_FORMAT;
 import static dopewars.util.enums.Emojis.CURRENCY;
 import static dopewars.util.enums.Emojis.FAIL;
@@ -42,11 +44,16 @@ public class BuyCommand extends Command {
         String itemName = event.getOption("item").getAsString();
         long quantity = event.getOption("quantity") == null ? 1 : event.getOption("quantity").getAsInt();
 
-        if (bot.marketHandler.hasItem(city, itemName)) {
+        if (bot.marketHandler.hasItemListed(city, itemName)) {
             // Attempt to purchase drug
             MarketHandler.Listing listing = bot.marketHandler.getListing(city, itemName);
             long price = (quantity * listing.price());
             if (balance >= price) {
+                if (ThreadLocalRandom.current().nextDouble() <= 0.05) {
+                    // 5% chance to be busted by police
+                    event.replyEmbeds(bot.marketHandler.bustedBuying(player, username, price)).queue();
+                    return;
+                }
                 bot.economyHandler.removeMoney(player, price);
                 bot.itemHandler.addItem(player, itemName, quantity);
                 Item item = listing.item();

@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static dopewars.DopeWars.NUM_FORMAT;
 import static dopewars.util.enums.Emojis.CURRENCY;
 import static dopewars.util.enums.Emojis.FAIL;
@@ -42,14 +44,19 @@ public class SellCommand extends Command {
         long itemCount = bot.itemHandler.countItem(player, itemName);
         long quantity = event.getOption("quantity") == null ? itemCount : event.getOption("quantity").getAsInt();
 
-        if (bot.marketHandler.hasItem(city, itemName)) {
+        if (bot.marketHandler.hasItemListed(city, itemName)) {
             // Attempt to purchase drug
             MarketHandler.Listing listing = bot.marketHandler.getListing(city, itemName);
             long price = (quantity * listing.price());
             if (itemCount >= quantity) {
+                Item item = listing.item();
+                if (ThreadLocalRandom.current().nextDouble() <= 0.05) {
+                    // 5% chance to be busted by police
+                    event.replyEmbeds(bot.marketHandler.bustedSelling(player, username, item, quantity)).queue();
+                    return;
+                }
                 bot.economyHandler.addMoney(player, price);
                 bot.itemHandler.removeItem(player, itemName, quantity);
-                Item item = listing.item();
                 String formattedPrice = NUM_FORMAT.format(price) + " " + CURRENCY;
                 event.reply("**" + username + "** sold " + quantity + " " + item.getEmoji() + " " + item.getName() + " for " + formattedPrice).queue();
                 return;

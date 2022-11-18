@@ -42,7 +42,7 @@ public class ShopCommand extends Command {
         EmbedBuilder template = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
                 .setTitle(city.flag + " " + city.name  + " Market")
-                .setDescription("Each city has a unique selection of items that rotate everyday.\nPrices dynamically change as players `/buy` and `/sell`.");
+                .setDescription("You can `/fly` to another city to find different items.\nPrices change dynamically as players `/buy` and `/sell`.");
 
         // Build shop pages
         EmbedBuilder page = new EmbedBuilder();
