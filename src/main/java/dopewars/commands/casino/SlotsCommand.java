@@ -124,7 +124,7 @@ public class SlotsCommand extends Command {
             bot.economyHandler.addMoney(player, earnings);
         } else {
             embed.setColor(EmbedColor.ERROR.color);
-            embed.setDescription("You lost " + CURRENCY + " " + earnings + "\n\n");
+            embed.setDescription("You lost " + CURRENCY + " -" + earnings + "\n\n");
         }
         embed.appendDescription(slotMachine);
         event.replyEmbeds(embed.build()).queue();

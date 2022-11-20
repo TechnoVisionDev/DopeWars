@@ -40,12 +40,12 @@ public class ItemHandler {
         this.equipment = new HashMap<>();
 
         // Create drug items
-        drugs.put("cannabis", new Drug("cannabis", ":four_leaf_clover:", 30, "A drug that can be consumed for a stat buff", true));
+        drugs.put("cannabis", new Drug("cannabis", "<:weed:1043831213800034384>", 30, "A drug that can be consumed for a stat buff", true));
         drugs.put("moonshine", new Drug("moonshine", ":wine_glass:", 20, "A drug that can be consumed for a stat buff"));
         drugs.put("mushrooms", new Drug("mushrooms", ":mushroom:", 85, "A drug that can be consumed for a stat buff", true));
         drugs.put("peyote", new Drug("peyote", ":cactus:", 90, "A drug that can be consumed for a stat buff", true));
         drugs.put("acid", new Drug("acid", ":sparkler:", 100, "A drug that can be consumed for a stat buff"));
-        drugs.put("mdma", new Drug("mdma", ":candy:", 120, "A drug that can be consumed for a stat buff"));
+        drugs.put("ecstasy", new Drug("ecstasy", ":candy:", 120, "A drug that can be consumed for a stat buff"));
         drugs.put("cocaine", new Drug("cocaine", ":snowflake:", 150, "A drug that can be consumed for a stat buff"));
         drugs.put("meth", new Drug("meth", ":diamond_shape_with_a_dot_inside:", 260, "A drug that can be consumed for a stat buff"));
         drugs.put("heroin", new Drug("heroin", ":syringe:", 400, "A drug that can be consumed for a stat buff"));
