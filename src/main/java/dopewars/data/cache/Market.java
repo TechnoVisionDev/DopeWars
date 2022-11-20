@@ -44,4 +44,8 @@ public class Market {
     public void setPrices(LinkedHashMap<String, Long> prices) {
         this.prices = prices;
     }
+
+    public void setPrice(String itemName, long price) {
+        prices.put(itemName, price);
+    }
 }

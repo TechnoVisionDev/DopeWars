@@ -51,7 +51,7 @@ public class BuyCommand extends Command {
         if (bot.marketHandler.hasItemListed(city, itemName)) {
             // Attempt to purchase drug
             MarketHandler.Listing listing = bot.marketHandler.getListing(city, itemName);
-            long price = (quantity * listing.price());
+            long price = (quantity * listing.getPrice());
             if (balance >= price) {
                 if (ThreadLocalRandom.current().nextDouble() <= 0.05 && bot.itemHandler.getDrug(itemName) != null) {
                     // 5% chance to be busted by police
@@ -65,7 +65,8 @@ public class BuyCommand extends Command {
                 }
                 bot.economyHandler.removeMoney(player, price);
                 bot.itemHandler.addItem(player, itemName, quantity);
-                Item item = listing.item();
+                bot.marketHandler.addDemand(city, itemName, quantity);
+                Item item = listing.getItem();
                 String formattedPrice = NUM_FORMAT.format(price) + " " + CURRENCY;
                 event.reply("**" + username + "** purchased " + quantity + " " + item.getEmoji() + " " + item.getName() + " for " + formattedPrice).queue();
                 return;

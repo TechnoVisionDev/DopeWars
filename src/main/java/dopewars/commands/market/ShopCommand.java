@@ -49,8 +49,8 @@ public class ShopCommand extends Command {
         page.copyFrom(template);
         int index = 0;
         for (MarketHandler.Listing listing : bot.marketHandler.getListings(cityKey).values()) {
-            Item item = listing.item();
-            String field = String.format("%s __%s__ | %d %s", item.getEmoji(), item.getName(), item.getPrice(), CURRENCY);
+            Item item = listing.getItem();
+            String field = String.format("%s __%s__ | %d %s", item.getEmoji(), item.getName(), listing.getPrice(), CURRENCY);
             page.addField(field, "A drug that you can consume.", false);
             index++;
             if (index % 6 == 0) {

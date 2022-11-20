@@ -1,6 +1,7 @@
 package dopewars.handlers;
 
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import dopewars.DopeWars;
 import dopewars.data.cache.Market;
 import dopewars.data.cache.Player;
@@ -11,6 +12,7 @@ import dopewars.util.enums.Cities;
 import dopewars.util.enums.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import org.bson.conversions.Bson;
 
 import java.util.*;
 
@@ -50,6 +52,44 @@ public class MarketHandler {
             markets.put(market.getCity(), market);
             updateListings(market);
         }
+
+        // Update market prices every 30 minutes.
+        new Timer().schedule( new TimerTask() {
+            public void run() {
+                for (Market market : markets.values()) {
+                    updatePrices(market);
+                }
+            }
+        }, 30*60*1000, 30*60*1000);
+    }
+
+    /**
+     * Update market prices based on supply & demand
+     *
+     * @param market the market to update.
+     */
+    private void updatePrices(Market market) {
+        // Calculate adjusted prices
+        for (Map.Entry<String,Listing> entry : listings.get(market.getCity()).entrySet()) {
+            // Calculate supply and demand ratio and adjusted price
+            Listing listing = entry.getValue();
+            double ratio = listing.getDemand()/listing.getSupply();
+            if (ratio == 1.0) continue;
+            long adjustedPrice = (long) (listing.getPrice() * ratio);
+
+            // Prevent price from crashing below 1
+            if (adjustedPrice < 1) {adjustedPrice = 1;}
+            listing.resetSupplyAndDemand();
+
+            // Update cache
+            market.setPrice(entry.getKey(), adjustedPrice);
+            listing.setPrice(adjustedPrice);
+            listings.get(market.getCity()).put(entry.getKey(), listing);
+        }
+        // Update database
+        Bson filter = Filters.eq("city", market.getCity());
+        Bson update = Updates.set("prices", market.getPrices());
+        bot.databaseManager.markets.updateOne(filter, update);
     }
 
     /**
@@ -58,8 +98,6 @@ public class MarketHandler {
      * @param market the market to update.
      */
     private void updateListings(Market market) {
-        // TODO: Update prices based on supply & demand
-
         // Generate new listings for market
         LinkedHashMap<String, Listing> cityListings = new LinkedHashMap<>();
         ArrayList<Drug> drugs = new ArrayList<>(bot.itemHandler.getDrugs());
@@ -144,11 +182,62 @@ public class MarketHandler {
         return listings.get(city).get(itemName);
     }
 
+    public void addSupply(String city, String itemName, long amount) {
+        listings.get(city).get(itemName).addSupply(amount);
+    }
+
+    public void addDemand(String city, String itemName, long amount) {
+        listings.get(city).get(itemName).addDemand(amount);
+    }
+
     /**
      * Represents an item available to buy and sell on a market.
-     *
-     * @param item the item listed.
-     * @param price the price of the listed item.
      */
-    public record Listing(Item item, Long price) { }
+    public static class Listing {
+
+        private final Item item;
+        private Long price;
+        private double supply;
+        private double demand;
+
+        public Listing(Item item, Long price) {
+            this.item = item;
+            this.price = price;
+            this.supply = 1.0;
+            this.demand = 1.0;
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public Long getPrice() {
+            return price;
+        }
+
+        public void setPrice(Long price) {
+            this.price = price;
+        }
+
+        public double getSupply() {
+            return supply;
+        }
+
+        public double getDemand() {
+            return demand;
+        }
+
+        public void addSupply(long amount) {
+            supply += amount;
+        }
+
+        public void addDemand(long amount) {
+            demand += amount;
+        }
+
+        public void resetSupplyAndDemand() {
+            supply = 1.0;
+            demand = 1.0;
+        }
+    }
 }
