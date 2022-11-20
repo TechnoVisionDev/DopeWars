@@ -42,6 +42,7 @@ public class ShopCommand extends Command {
         EmbedBuilder template = new EmbedBuilder()
                 .setColor(EmbedColor.DEFAULT.color)
                 .setTitle(city.flag + " " + city.name  + " Market")
+                .setFooter("Prices update in " + bot.marketHandler.getTimeTillPricesUpdate())
                 .setDescription("You can `/fly` to another city to find different items.\nPrices change dynamically as players `/buy` and `/sell`.");
 
         // Build shop pages

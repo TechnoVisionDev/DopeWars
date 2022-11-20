@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.bson.conversions.Bson;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static dopewars.DopeWars.NUM_FORMAT;
 import static dopewars.util.enums.Emojis.CURRENCY;
@@ -26,9 +27,12 @@ import static dopewars.util.enums.Emojis.CURRENCY;
  */
 public class MarketHandler {
 
+    private static final long PRICES_UPDATE_COOLDOWN = 30*60*1000; //30 minutes
+
     private final DopeWars bot;
     private final Map<String, Market> markets;
     private final Map<String, LinkedHashMap<String, Listing>> listings;
+    private long updatePricesTimestamp;
 
     /**
      * Setup and cache market prices and listings.
@@ -54,13 +58,15 @@ public class MarketHandler {
         }
 
         // Update market prices every 30 minutes.
+        this.updatePricesTimestamp = System.currentTimeMillis();
         new Timer().schedule( new TimerTask() {
             public void run() {
+                updatePricesTimestamp = System.currentTimeMillis();
                 for (Market market : markets.values()) {
                     updatePrices(market);
                 }
             }
-        }, 30*60*1000, 30*60*1000);
+        }, PRICES_UPDATE_COOLDOWN, PRICES_UPDATE_COOLDOWN);
     }
 
     /**
@@ -180,6 +186,13 @@ public class MarketHandler {
      */
     public Listing getListing(String city, String itemName) {
         return listings.get(city).get(itemName);
+    }
+
+    public String getTimeTillPricesUpdate() {
+        long cooldown = PRICES_UPDATE_COOLDOWN - (System.currentTimeMillis() - updatePricesTimestamp);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(cooldown);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(cooldown) - TimeUnit.MINUTES.toSeconds(minutes);
+        return minutes + "m " + seconds + "s";
     }
 
     public void addSupply(String city, String itemName, long amount) {
